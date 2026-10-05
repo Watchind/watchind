@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>WatchInd — Watch. Discover. Share.</title>
+<meta name="description" content="WatchInd — India's independent video platform. Watch shorts and long videos, create your channel, upload and share.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23a855f7'/%3E%3Cstop offset='.5' stop-color='%2322d3ee'/%3E%3Cstop offset='1' stop-color='%23ec4899'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='%230a0a12'/%3E%3Cpath d='M14 20 L24 44 L32 28 L40 44 L50 20' stroke='url(%23g)' stroke-width='7' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+/* ============ WatchInd v2 — brand system ============ */
+:root{
+  --bg:#050509; --bg2:#0a0a12; --card:#12121b; --card2:#17171f;
+  --line:rgba(255,255,255,.08);
+  --txt:#f4f4f8; --mut:#a7a7b8; --dim:#6e6e80;
+  --purple:#a855f7; --purple2:#7c3aed; --cyan:#22d3ee; --pink:#ec4899;
+  --grad:linear-gradient(135deg,#a855f7 0%,#6366f1 45%,#22d3ee 100%);
+  --grad2:linear-gradient(135deg,#ec4899 0%,#a855f7 60%,#22d3ee 100%);
+  --glow:0 0 24px rgba(168,85,247,.35);
+  --r:14px; --r-sm:10px;
+  --glass:rgba(14,14,22,.72);
+  --shadow:0 10px 34px rgba(0,0,0,.5);
+  --hdr:64px; --bnav:60px;
+}
+[data-theme="light"]{
+  --bg:#f6f6fb; --bg2:#ffffff; --card:#ffffff; --card2:#f1f1f7;
+  --line:rgba(20,20,40,.1);
+  --txt:#14141c; --mut:#55556a; --dim:#8a8a9c;
+  --glass:rgba(255,255,255,.78);
+  --shadow:0 10px 30px rgba(80,60,160,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;min-height:100vh;transition:background .3s,color .3s}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input,select,textarea{font:inherit;color:var(--txt);background:var(--card2);border:1px solid var(--line);border-radius:var(--r-sm);padding:11px 14px;width:100%;outline:none;transition:border .2s, box-shadow .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(168,85,247,.18)}
+textarea{min-height:110px;resize:vertical}
+::placeholder{color:var(--dim)}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:#2c2c3a;border-radius:8px}
+::-webkit-scrollbar-track{background:transparent}
+
+/* splash */
+.splash{position:fixed;inset:0;background:var(--bg);z-index:200;display:flex;align-items:center;justify-content:center;transition:opacity .5s}
+.splash.hide{opacity:0;pointer-events:none}
+.splash-logo{display:flex;align-items:center;gap:14px}
+.splash-word{font-size:38px;font-weight:800;letter-spacing:.5px}
+.splash-word em,.logo-text em{font-style:normal;background:var(--grad2);-webkit-background-clip:text;background-clip:text;color:transparent}
+.wmark{width:40px;height:40px;flex:none}
+.wmark-anim{animation:wpulse 1.6s ease-in-out infinite}
+@keyframes wpulse{0%,100%{transform:scale(1);filter:drop-shadow(0 0 6px rgba(168,85,247,.5))}50%{transform:scale(1.08);filter:drop-shadow(0 0 16px rgba(34,211,238,.7))}}
+
+/* topbar */
+.topbar{position:sticky;top:0;z-index:90;height:var(--hdr);display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid var(--line)}
+.glass{background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.logo{display:flex;align-items:center;gap:9px;font-size:22px;font-weight:800;letter-spacing:.3px}
+.logo .wmark{width:32px;height:32px}
+.logo-text em{font-style:normal}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;transition:background .2s}
+.icon-btn:hover{background:rgba(255,255,255,.07)}
+.searchbar{flex:1;max-width:560px;margin:0 auto;display:flex;background:var(--card);border:1px solid var(--line);border-radius:999px;overflow:hidden;transition:border .2s, box-shadow .2s}
+.searchbar:focus-within{border-color:var(--purple);box-shadow:0 0 0 3px rgba(168,85,247,.15)}
+.searchbar input{border:0;background:transparent;padding:10px 18px;border-radius:0}
+.searchbar input:focus{box-shadow:none}
+.searchbar button{padding:0 18px;color:var(--mut)}
+.searchbar button:hover{color:var(--txt)}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
+.bell{position:relative}
+.bell .dot{position:absolute;top:6px;right:8px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:var(--grad2);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.avatar{width:36px;height:36px;border-radius:50%;object-fit:cover;background:var(--grad);display:inline-flex;align-items:center;justify-content:center;font-weight:700;color:#fff;flex:none}
+.avatar.lg{width:84px;height:84px;font-size:30px}
+.avatar.xl{width:120px;height:120px;font-size:44px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:600;font-size:14px;transition:transform .15s, box-shadow .2s, background .2s;white-space:nowrap}
+.btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.btn.primary{background:var(--grad);border:0;color:#fff;box-shadow:var(--glow)}
+.btn.primary:hover{box-shadow:0 0 32px rgba(168,85,247,.55)}
+.btn.danger{background:linear-gradient(135deg,#ef4444,#ec4899);border:0;color:#fff}
+.btn.ghost{background:transparent}
+.btn.sm{padding:7px 14px;font-size:13px}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.chip{display:inline-flex;align-items:center;padding:8px 16px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:13.5px;font-weight:600;color:var(--mut);cursor:pointer;transition:all .2s;white-space:nowrap}
+.chip:hover{color:var(--txt);border-color:var(--purple)}
+.chip.on{background:var(--grad);color:#fff;border:0;box-shadow:var(--glow)}
+
+/* shell layout */
+.shell{display:flex;min-height:calc(100vh - var(--hdr))}
+.sidebar{width:236px;flex:none;padding:18px 12px;border-right:1px solid var(--line);position:sticky;top:var(--hdr);height:calc(100vh - var(--hdr));overflow-y:auto;display:flex;flex-direction:column}
+.sidebar nav{display:flex;flex-direction:column;gap:2px}
+.snav{display:flex;align-items:center;gap:14px;padding:11px 14px;border-radius:12px;color:var(--mut);font-weight:600;font-size:14.5px;transition:all .18s}
+.snav svg{flex:none}
+.snav:hover{background:rgba(255,255,255,.05);color:var(--txt)}
+.snav.on{background:linear-gradient(135deg,rgba(168,85,247,.22),rgba(34,211,238,.12));color:var(--txt);box-shadow:inset 0 0 0 1px rgba(168,85,247,.3)}
+.side-foot{margin-top:auto;padding:14px 8px 4px;color:var(--dim);font-size:12px}
+.side-tag{background:var(--grad2);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700;margin-bottom:4px}
+.app{flex:1;min-width:0;padding:22px 26px 90px;max-width:1560px;margin:0 auto;width:100%}
+.bottomnav{display:none}
+
+/* cards & grids */
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.vcard{background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:var(--r);overflow:hidden;transition:transform .2s, box-shadow .25s, border-color .2s;cursor:pointer}
+.vcard:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:rgba(168,85,247,.4)}
+.thumb{position:relative;aspect-ratio:16/9;background:#0b0b12;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover;transition:transform .35s}
+.vcard:hover .thumb img{transform:scale(1.05)}
+.dur{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.78);padding:3px 8px;border-radius:6px;font-size:12px;font-weight:600}
+.badge-vis{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.7);border:1px solid var(--line);padding:3px 9px;border-radius:999px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.vmeta{display:flex;gap:12px;padding:13px 14px}
+.vmeta .avatar{width:38px;height:38px;font-size:15px}
+.vtitle{font-weight:700;font-size:15px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.vsub{color:var(--mut);font-size:13px;margin-top:5px}
+.shelf{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 14px;scroll-snap-type:x mandatory}
+.shelf::-webkit-scrollbar{height:6px}
+.scard{flex:0 0 168px;scroll-snap-align:start;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);background:var(--card);cursor:pointer;transition:transform .2s, box-shadow .2s}
+.scard:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.scard .thumb{aspect-ratio:9/16}
+.scard .vtitle{font-size:13px;padding:10px}
+.sect{margin:30px 0 8px}
+.sect h2{font-size:20px;font-weight:800;display:flex;align-items:center;gap:10px}
+.sect h2 .bar{width:5px;height:22px;border-radius:3px;background:var(--grad2)}
+.chips{display:flex;gap:10px;overflow-x:auto;padding:14px 2px;position:sticky;top:var(--hdr);background:var(--bg);z-index:20}
+.chips::-webkit-scrollbar{height:0}
+
+/* skeleton */
+.skel{border-radius:var(--r);background:linear-gradient(100deg,var(--card) 40%,var(--card2) 50%,var(--card) 60%);background-size:200% 100%;animation:sh 1.4s infinite}
+@keyframes sh{to{background-position:-200% 0}}
+.skel-card{height:250px}
+.skel-line{height:16px;border-radius:8px;margin:8px 0}
+
+/* forms */
+.form{max-width:520px;margin:34px auto;background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:18px;padding:30px;box-shadow:var(--shadow)}
+.form h1{font-size:24px;margin-bottom:6px}
+.form p.sub{color:var(--mut);margin-bottom:20px;font-size:14px}
+.field{margin-bottom:15px}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--mut);margin-bottom:7px}
+.row{display:flex;gap:10px;align-items:center}
+.err{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.4);color:#f87171;padding:11px 14px;border-radius:var(--r-sm);margin-bottom:15px;font-size:14px}
+.okmsg{background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.4);color:var(--cyan);padding:11px 14px;border-radius:var(--r-sm);margin-bottom:15px;font-size:14px}
+.link{color:var(--cyan);font-weight:600}
+.link:hover{text-decoration:underline}
+.check{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px}
+.check input{width:auto;accent-color:var(--purple)}
+
+/* toasts & modal */
+.toasts{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:300;display:flex;flex-direction:column;gap:10px;align-items:center}
+.toast{background:#1b1b26;color:#fff;border:1px solid rgba(168,85,247,.45);padding:12px 22px;border-radius:999px;font-size:14px;font-weight:600;box-shadow:var(--shadow);animation:tin .25s ease}
+[data-theme="light"] .toast{background:#14141c}
+@keyframes tin{from{opacity:0;transform:translateY(12px)}}
+.modal-veil{position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:250;display:flex;align-items:center;justify-content:center;padding:18px;animation:tin .2s}
+.modal{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;max-width:440px;width:100%;box-shadow:var(--shadow)}
+.modal h3{font-size:19px;margin-bottom:10px}
+.modal p{color:var(--mut);font-size:14px;margin-bottom:20px;line-height:1.55}
+.modal .row{justify-content:flex-end}
+
+/* player */
+.player{position:relative;background:#000;border-radius:var(--r);overflow:hidden;aspect-ratio:16/9;box-shadow:var(--shadow);user-select:none}
+.player video{width:100%;height:100%;object-fit:contain;background:#000}
+.pctl{position:absolute;inset:auto 0 0 0;padding:26px 14px 10px;background:linear-gradient(transparent,rgba(0,0,0,.82));opacity:0;transition:opacity .25s}
+.player:hover .pctl,.player.paused .pctl,.player.touched .pctl{opacity:1}
+.pbar{height:5px;background:rgba(255,255,255,.22);border-radius:3px;cursor:pointer;position:relative;margin-bottom:8px}
+.pbar:hover{height:7px}
+.pfill{position:absolute;inset:0 auto 0 0;background:var(--grad2);border-radius:3px;width:0%}
+.pbuf{position:absolute;inset:0 auto 0 0;background:rgba(255,255,255,.25);border-radius:3px;width:0%}
+.prow{display:flex;align-items:center;gap:6px}
+.ptime{color:#ddd;font-size:12.5px;margin:0 8px;white-space:nowrap}
+.pmenu{position:absolute;bottom:56px;right:12px;background:rgba(12,12,20,.96);border:1px solid var(--line);border-radius:12px;min-width:190px;overflow:hidden;z-index:5}
+.pmenu button{display:flex;width:100%;padding:11px 16px;font-size:14px;align-items:center;justify-content:space-between}
+.pmenu button:hover{background:rgba(168,85,247,.18)}
+.pmenu button.on{color:var(--cyan);font-weight:700}
+.bigplay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.bigplay span{width:78px;height:78px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;box-shadow:var(--glow);animation:wpulse 2s infinite}
+.spin{width:52px;height:52px;border-radius:50%;border:4px solid rgba(255,255,255,.2);border-top-color:var(--cyan);animation:rot .8s linear infinite;position:absolute;top:50%;left:50%;margin:-26px}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* watch page, channel, comments, studio, admin, misc */
+.wlayout{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:26px;align-items:start}
+.wtitle{font-size:21px;font-weight:800;line-height:1.4;margin:16px 0 8px}
+.wrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid var(--line)}
+.chanline{display:flex;align-items:center;gap:12px;margin-right:auto}
+.chanline .nm{font-weight:700}
+.chanline .hs{color:var(--mut);font-size:13px}
+.wactions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-weight:700;font-size:13.5px;transition:all .18s}
+.pill:hover{border-color:var(--purple);transform:translateY(-1px)}
+.pill.on{background:var(--grad);border:0;color:#fff;box-shadow:var(--glow)}
+.pill .cnt{opacity:.85;font-weight:600}
+.desc{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin:14px 0;font-size:14px;line-height:1.65;white-space:pre-wrap;word-break:break-word}
+.desc.clamp{max-height:96px;overflow:hidden;position:relative;cursor:pointer}
+.desc.clamp::after{content:"…more";position:absolute;bottom:6px;right:12px;color:var(--cyan);font-weight:700;background:linear-gradient(transparent,var(--card) 55%);padding-left:30px}
+.rail .vcard{display:flex;gap:10px;margin-bottom:12px}
+.rail .thumb{width:170px;flex:none;aspect-ratio:16/9}
+.rail .vmeta{padding:4px 2px}
+.rail .vtitle{font-size:13.5px}
+.rail h3{font-size:16px;margin-bottom:14px}
+
+/* comments */
+.cbox{display:flex;gap:12px;margin:18px 0}
+.cbox .avatar{width:38px;height:38px;font-size:15px}
+.citem{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.citem .avatar{width:36px;height:36px;font-size:14px;flex:none}
+.cbody{flex:1;min-width:0}
+.chead{font-size:13px;margin-bottom:4px}
+.chead b{margin-right:8px}
+.chead span{color:var(--dim)}
+.ctext{font-size:14.5px;line-height:1.6;word-break:break-word}
+.cacts{display:flex;gap:4px;align-items:center;margin-top:8px}
+.cacts .icon-btn{width:32px;height:32px;font-size:12.5px;color:var(--mut)}
+.cacts .icon-btn.on{color:var(--cyan)}
+.creply{margin:10px 0 0 48px;border-left:2px solid rgba(168,85,247,.35);padding-left:14px}
+
+/* channel */
+.banner{height:200px;border-radius:18px;background:linear-gradient(120deg,#2a1245,#0e2a3a 55%,#3a0f2a);background-size:cover;background-position:center;border:1px solid var(--line);overflow:hidden}
+.chead2{display:flex;gap:18px;align-items:center;margin:-46px 0 18px;padding:0 8px;flex-wrap:wrap}
+.chead2 .avatar{border:4px solid var(--bg)}
+.chnm{font-size:24px;font-weight:800}
+.chsub{color:var(--mut);font-size:13.5px;margin-top:4px}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:18px 0;overflow-x:auto}
+.tab{padding:12px 18px;font-weight:700;color:var(--mut);border-bottom:3px solid transparent;white-space:nowrap}
+.tab.on{color:var(--txt);border-color:var(--purple)}
+
+/* studio */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin:18px 0}
+.stat{background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.stat .n{font-size:26px;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat .l{color:var(--mut);font-size:13px;margin-top:6px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--card)}
+table.tbl{width:100%;border-collapse:collapse;font-size:14px;min-width:640px}
+.tbl th{text-align:left;padding:13px 14px;color:var(--mut);font-size:12.5px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr:hover td{background:rgba(255,255,255,.025)}
+.tt{width:120px;height:68px;object-fit:cover;border-radius:8px;background:#0b0b12}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.panel{background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.panel h3{margin-bottom:14px;font-size:17px}
+
+/* upload */
+.upl{max-width:760px;margin:26px auto}
+.drop{border:2px dashed rgba(168,85,247,.5);border-radius:18px;padding:44px 20px;text-align:center;background:rgba(168,85,247,.05);cursor:pointer;transition:all .2s}
+.drop:hover{background:rgba(168,85,247,.1);border-color:var(--purple)}
+.drop.over{background:rgba(34,211,238,.08);border-color:var(--cyan)}
+.prog{height:10px;background:var(--card2);border-radius:6px;overflow:hidden;margin:12px 0}
+.prog i{display:block;height:100%;width:0;background:var(--grad2);border-radius:6px;transition:width .2s}
+.steps{display:flex;gap:8px;margin:16px 0}
+.step{flex:1;text-align:center;font-size:12.5px;color:var(--dim);padding:9px;border-radius:10px;background:var(--card);border:1px solid var(--line)}
+.step.on{color:#fff;background:var(--grad);border:0;font-weight:700}
+.step.done{color:var(--cyan);border-color:var(--cyan)}
+
+/* notifications */
+.nitem{display:flex;gap:14px;padding:15px;border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px;background:var(--card);cursor:pointer;transition:border .2s}
+.nitem:hover{border-color:var(--purple)}
+.nitem.unread{border-color:rgba(168,85,247,.55);background:linear-gradient(160deg,rgba(168,85,247,.1),var(--card))}
+.nitem .t{font-weight:700;font-size:14.5px}
+.nitem .b{color:var(--mut);font-size:13.5px;margin-top:4px}
+.nitem .d{color:var(--dim);font-size:12px;margin-top:6px}
+
+/* dropdown menu */
+.dd{position:relative}
+.ddmenu{position:absolute;top:calc(100% + 8px);right:0;background:var(--card);border:1px solid var(--line);border-radius:14px;min-width:220px;box-shadow:var(--shadow);z-index:120;overflow:hidden;padding:6px}
+.ddmenu button,.ddmenu a{display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;font-size:14px;border-radius:9px;text-align:left}
+.ddmenu button:hover,.ddmenu a:hover{background:rgba(168,85,247,.14)}
+.ddmenu .sep{height:1px;background:var(--line);margin:6px 4px}
+
+/* misc */
+.pagehead{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+.pagehead h1{font-size:24px;font-weight:800}
+.pagehead .sp{margin-left:auto;display:flex;gap:8px}
+.empty{text-align:center;padding:60px 20px;color:var(--mut)}
+.empty .big{font-size:46px;margin-bottom:12px}
+.empty h3{color:var(--txt);margin-bottom:8px;font-size:18px}
+.kv{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.kv b{font-weight:700}
+.tagrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.tag{background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.35);color:var(--cyan);padding:5px 12px;border-radius:999px;font-size:12.5px;font-weight:600}
+.themebtn{font-size:18px}
+.hide-sm{display:inline}
+.only-mobile{display:none}
+
+/* responsive */
+@media(max-width:1100px){
+  .wlayout{grid-template-columns:1fr}
+  .rail{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+  .rail .vcard{display:block}
+  .rail .thumb{width:100%}
+}
+@media(max-width:860px){
+  .sidebar{display:none}
+  .sidebar.open{display:flex;position:fixed;left:0;top:var(--hdr);bottom:0;z-index:100;background:var(--bg);width:250px;box-shadow:var(--shadow)}
+  .app{padding:16px 14px 96px}
+  .bottomnav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:90;background:var(--glass);backdrop-filter:blur(14px);border-top:1px solid var(--line);height:calc(var(--bnav) + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom)}
+  .bottomnav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--mut);font-size:10.5px;font-weight:600}
+  .bottomnav a.on{color:var(--txt)}
+  .bottomnav a.on svg{filter:drop-shadow(0 0 6px rgba(168,85,247,.8))}
+  .bottomnav .fab{position:relative}
+  .bottomnav .fab span{width:46px;height:46px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;box-shadow:var(--glow);margin-top:-18px}
+  .searchbar{max-width:none}
+  .hide-sm{display:none}
+  .grid2{grid-template-columns:1fr}
+  .banner{height:130px}
+  .chead2{margin-top:-34px}
+  .vgrid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+  .vmeta{padding:9px 10px;gap:9px}
+  .vmeta .avatar{width:32px;height:32px;font-size:12px}
+  .vtitle{font-size:13px}
+  .wtitle{font-size:18px}
+}
+
+</style>
+</head>
+<body>
+<div id="boot-splash" class="splash">
+  <div class="splash-logo">
+    <svg viewBox="0 0 64 64" class="wmark wmark-anim"><defs><linearGradient id="wg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a855f7"/><stop offset=".5" stop-color="#22d3ee"/><stop offset="1" stop-color="#ec4899"/></linearGradient></defs><path d="M14 20 L24 44 L32 28 L40 44 L50 20" stroke="url(#wg)" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="splash-word">Watch<em>Ind</em></div>
+  </div>
+</div>
+
+<header class="topbar glass">
+  <button id="menuBtn" class="icon-btn only-desktop" aria-label="Menu">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+  </button>
+  <a href="#/" class="logo" aria-label="WatchInd home">
+    <svg viewBox="0 0 64 64" class="wmark"><path d="M14 20 L24 44 L32 28 L40 44 L50 20" stroke="url(#wg)" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="logo-text">Watch<em>Ind</em></span>
+  </a>
+  <form class="searchbar" id="topSearch" autocomplete="off" role="search">
+    <input type="search" id="topSearchInput" placeholder="Search videos, channels…" aria-label="Search">
+    <button type="submit" aria-label="Search">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    </button>
+  </form>
+  <nav class="top-actions" id="topActions" aria-label="Account"></nav>
+</header>
+
+<div class="shell">
+  <aside class="sidebar" id="sidebar" aria-label="Primary">
+    <nav id="sideNav"></nav>
+    <div class="side-foot">
+      <div class="side-tag">Watch. Discover. Share.</div>
+      <div class="side-copy">© 2026 WatchInd</div>
+    </div>
+  </aside>
+  <main id="app" class="app" tabindex="-1"></main>
+</div>
+
+<nav class="bottomnav" id="bottomNav" aria-label="Mobile"></nav>
+
+<div id="modalRoot"></div>
+<div id="toastRoot" class="toasts" aria-live="polite"></div>
+
+<script type="module">
+var li=Object.defineProperty;var Tt=(t,e,i)=>()=>{if(i)throw i[0];try{return t&&(e=t(t=0)),e}catch(a){throw i=[a],a}};var Le=(t,e)=>{for(var i in e)li(t,i,{get:e[i],enumerable:!0})};import{createClient as ri}from"https://esm.sh/@supabase/supabase-js@2";async function b(t=!1){if(lt&&!t)return lt;let{data:e}=await d.auth.getSession();return lt=e.session?.user??null,tt=null,lt}function rt(t){lt=t,tt=null,Ce.forEach(e=>e(t))}function Te(t){Ce.push(t)}async function yt(t=!1){let e=await b();if(!e)return null;if(tt&&!t)return tt;let{data:i}=await d.from("profiles").select("*").eq("id",e.id).maybeSingle();return tt=i??null,tt}async function I(t){let e=t||(await b())?.id;if(!e)return null;let{data:i}=await d.from("channels").select("*").eq("owner_id",e).limit(1).maybeSingle();return i??null}async function P(){let t=await b();return t||(location.hash="#/login?next="+encodeURIComponent(location.hash.slice(1)),null)}function Y(t,e){return e?/^https?:/.test(e)?e:`${bt}/storage/v1/object/public/${t}/${e}`:""}var bt,St,d,A,lt,tt,Ce,z=Tt(()=>{bt="https://jhpimqhbbbzuglhpnxha.supabase.co",St="sb_publishable_bw_b2sOM1UUuWCuPb3yyQQ_6BonzaBi",d=ri(bt,St),A={videos:"videos",thumbnails:"thumbnails",avatars:"avatars"},lt=null,tt=null,Ce=[]});var dt={};Le(dt,{$:()=>s,$$:()=>w,avatarHTML:()=>L,bindCards:()=>N,confirmDlg:()=>S,copyLink:()=>Et,debounce:()=>Mt,emptyState:()=>_,esc:()=>v,fmtCount:()=>y,fmtDate:()=>G,fmtDur:()=>D,initials:()=>Se,modal:()=>et,promptDlg:()=>Ht,shortCard:()=>Pt,skelCards:()=>j,spinnerHTML:()=>di,timeAgo:()=>V,toast:()=>f,videoCard:()=>F});function v(t){return String(t??"").replace(/[&<>"']/g,e=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[e])}function y(t){return t=Number(t)||0,t>=1e9?(t/1e9).toFixed(1).replace(".0","")+"B":t>=1e6?(t/1e6).toFixed(1).replace(".0","")+"M":t>=1e3?(t/1e3).toFixed(1).replace(".0","")+"K":String(t)}function D(t){t=Math.max(0,Math.round(Number(t)||0));let e=Math.floor(t/3600),i=Math.floor(t%3600/60),a=t%60;return(e?e+":"+String(i).padStart(2,"0"):i)+":"+String(a).padStart(2,"0")}function V(t){let e=Date.now()-new Date(t).getTime(),i=Math.floor(e/6e4);if(i<1)return"just now";if(i<60)return i+"m ago";let a=Math.floor(i/60);if(a<24)return a+"h ago";let n=Math.floor(a/24);if(n<30)return n+"d ago";let l=Math.floor(n/30);return l<12?l+"mo ago":Math.floor(l/12)+"y ago"}function G(t){return new Date(t).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"})}function Mt(t,e=350){let i;return(...a)=>{clearTimeout(i),i=setTimeout(()=>t(...a),e)}}function Se(t){return String(t||"?").trim().split(/\s+/).slice(0,2).map(e=>e[0]).join("").toUpperCase()}function L(t,e,i=""){return t?`<img class="avatar ${i}" src="${v(t)}" alt="${v(e||"")}" loading="lazy" onerror="__avFb(this)">`:`<span class="avatar ${i}">${v(Se(e))}</span>`}function f(t,e=2600){let i=s("#toastRoot"),a=document.createElement("div");a.className="toast",a.textContent=t,i.appendChild(a),setTimeout(()=>{a.style.opacity="0",a.style.transition="opacity .3s",setTimeout(()=>a.remove(),320)},e)}function et(t){let e=s("#modalRoot"),i=document.createElement("div");i.className="modal-veil",i.innerHTML=`<div class="modal" role="dialog" aria-modal="true">${t}</div>`,e.appendChild(i);let a=()=>i.remove();return i.addEventListener("click",n=>{n.target===i&&a()}),{el:i,close:a}}function S(t,e,i="Delete"){return new Promise(a=>{let{el:n,close:l}=et(`
+      <h3>${v(t)}</h3><p>${v(e)}</p>
+      <div class="row"><button class="btn ghost" data-x="no">Cancel</button>
+      <button class="btn danger" data-x="yes">${v(i)}</button></div>`);n.addEventListener("click",o=>{let r=o.target.closest("[data-x]")?.dataset.x;r&&(l(),a(r==="yes"))})})}function Ht(t,e,i="",a=""){return new Promise(n=>{let{el:l,close:o}=et(`
+      <h3>${v(t)}</h3>
+      <div class="field"><label>${v(e)}</label>
+      <input id="pdIn" value="${v(i)}" placeholder="${v(a)}"></div>
+      <div class="row"><button class="btn ghost" data-x="no">Cancel</button>
+      <button class="btn primary" data-x="yes">Save</button></div>`),r=s("#pdIn",l);r.focus(),r.select(),l.addEventListener("click",c=>{let u=c.target.closest("[data-x]")?.dataset.x;if(!u)return;let m=r.value.trim();o(),n(u==="yes"?m:null)}),r.addEventListener("keydown",c=>{if(c.key==="Enter"){let u=r.value.trim();o(),n(u)}})})}function j(t=8){return`<div class="vgrid">${'<div><div class="skel skel-card"></div><div class="skel skel-line" style="width:80%"></div><div class="skel skel-line" style="width:55%"></div></div>'.repeat(t)}</div>`}function _(t,e,i,a){return`<div class="empty"><div class="big">${t}</div><h3>${v(e)}</h3><p>${v(i)}</p>${a?`<div style="margin-top:16px">${a}</div>`:""}</div>`}function di(t="Loading\u2026"){return`<div class="empty"><div class="big">\u25CC</div><p>${v(t)}</p></div>`}function F(t,e={}){let i=t.channels||{},a=t.visibility&&t.visibility!=="public"?`<span class="badge-vis">${v(t.visibility)}</span>`:"";return`
+  <article class="vcard" data-go="#/watch/${t.id}" tabindex="0" role="link" aria-label="${v(t.title)}">
+    <div class="thumb">
+      ${t.thumbnail_url?`<img src="${v(t.thumbnail_url)}" alt="" loading="lazy">`:'<div style="width:100%;height:100%;background:linear-gradient(135deg,#2a1245,#0e2a3a)"></div>'}
+      ${a}<span class="dur">${D(t.duration_secs)}</span>
+    </div>
+    <div class="vmeta">
+      ${e.hideChannel?"":`<a data-go="#/channel/${v(i.handle||"")}" onclick="event.stopPropagation()">${L(i.avatar_url,i.name)}</a>`}
+      <div style="min-width:0">
+        <div class="vtitle">${v(t.title)}</div>
+        <div class="vsub">${e.hideChannel?"":v(i.name||"")+" \xB7 "}${y(t.view_count)} views \xB7 ${V(t.created_at)}</div>
+      </div>
+    </div>
+  </article>`}function Pt(t){return`
+  <article class="scard" data-go="#/watch/${t.id}" tabindex="0" role="link" aria-label="${v(t.title)}">
+    <div class="thumb">
+      ${t.thumbnail_url?`<img src="${v(t.thumbnail_url)}" alt="" loading="lazy">`:'<div style="width:100%;height:100%;background:linear-gradient(135deg,#3a0f2a,#0e2a3a)"></div>'}
+      <span class="dur">${D(t.duration_secs)}</span>
+    </div>
+    <div class="vtitle">${v(t.title)}</div>
+  </article>`}function N(t=document){w("[data-go]",t).forEach(e=>{e.dataset.bound||(e.dataset.bound="1",e.addEventListener("click",()=>{location.hash=e.dataset.go}),e.addEventListener("keydown",i=>{i.key==="Enter"&&(location.hash=e.dataset.go)}))})}function Et(t=location.href){let e=()=>f("Link copied");navigator.clipboard?.writeText?navigator.clipboard.writeText(t).then(e).catch(()=>i()):i();function i(){window.prompt("Copy link:",t)}}var s,w,U=Tt(()=>{s=(t,e=document)=>e.querySelector(t),w=(t,e=document)=>[...e.querySelectorAll(t)];window.__avFb=function(t){let e=document.createElement("span");e.className=t.className;let i=t.getAttribute("alt")||"?";e.textContent=i.trim().split(/\s+/).slice(0,2).map(a=>a[0]).join("").toUpperCase(),t.replaceWith(e)}});var ft={};Le(ft,{VID_SEL:()=>E,addSearchHistory:()=>Zt,addToPlaylist:()=>kt,adminDeleteComment:()=>ge,adminDeleteVideo:()=>ye,adminListComments:()=>pe,adminListReports:()=>fe,adminListUsers:()=>he,adminListVideos:()=>me,adminPlatformStats:()=>_e,adminReviewReport:()=>be,adminSetUserAdmin:()=>we,clearHistory:()=>Kt,clearSearchHistory:()=>ee,commentLikeCount:()=>Ft,createPlaylist:()=>ae,deleteComment:()=>It,deletePlaylist:()=>ci,getCategories:()=>Q,getChannelByHandle:()=>Vt,getChannelComments:()=>ue,getChannelSubscribers:()=>ce,getChannelVideos:()=>it,getComments:()=>jt,getLikeCounts:()=>xt,getLikeState:()=>vt,getMyPlaylists:()=>st,getNotifications:()=>oe,getPlaylist:()=>se,getPublicPlaylists:()=>ie,getRecommended:()=>Dt,getSearchHistory:()=>Qt,getShorts:()=>wt,getStudioStats:()=>Ct,getSubCount:()=>at,getSubscribedVideos:()=>zt,getTrending:()=>qt,getVideoById:()=>Nt,getVideos:()=>gt,getWatchHistory:()=>Ot,getWatchLater:()=>Jt,isAdmin:()=>pt,isInWatchLater:()=>Xt,isSubscribed:()=>ut,markAllNotifRead:()=>de,markNotifRead:()=>re,postComment:()=>$t,recordView:()=>Ut,recordWatchSeconds:()=>Rt,removeFromPlaylist:()=>ne,removeHistory:()=>Yt,removeSearchHistory:()=>te,reportContent:()=>Lt,resetAdminCache:()=>ve,searchAll:()=>At,toggleCommentLike:()=>Gt,toggleDislike:()=>Wt,toggleLike:()=>Bt,toggleSubscribe:()=>_t,toggleWatchLater:()=>mt,unreadNotifCount:()=>le,upsertWatchHistory:()=>ht});function K(t){return t.eq("visibility","public").eq("status","ready")}async function gt({limit:t=24,offset:e=0,category:i=null,order:a="latest"}={}){let n=d.from("videos").select(E);n=K(n),i&&i!=="all"&&(n=n.eq("category_id",i)),n=a==="views"?n.order("view_count",{ascending:!1}):n.order("created_at",{ascending:!1});let{data:l,error:o}=await n.range(e,e+t-1);if(o)throw o;return l}async function qt(t=24){let e=new Date(Date.now()-6048e5).toISOString(),{data:i,error:a}=await K(d.from("videos").select(E)).gte("created_at",e).order("view_count",{ascending:!1}).limit(t);if(a)throw a;return i.length?i:(await K(d.from("videos").select(E)).order("view_count",{ascending:!1}).limit(t)).data||[]}async function wt(t=24,e=0){let{data:i,error:a}=await K(d.from("videos").select(E)).lte("duration_secs",62).order("created_at",{ascending:!1}).range(e,e+t-1);if(a)throw a;return i}async function Dt(t,e=12){let i=[];if(t.category_id&&(i=(await K(d.from("videos").select(E)).eq("category_id",t.category_id).neq("id",t.id).order("view_count",{ascending:!1}).limit(e)).data||[]),i.length<e){let a=await K(d.from("videos").select(E)).neq("id",t.id).order("created_at",{ascending:!1}).limit(e*2),n=new Set(i.map(l=>l.id));for(let l of a.data||[])!n.has(l.id)&&i.length<e&&i.push(l)}return i}async function Nt(t){let{data:e}=await d.from("videos").select(E).eq("id",t).maybeSingle();if(e)return{video:e,via:"rls"};try{let{data:i}=await d.rpc("get_video_by_id",{p_id:t});if(i&&i.length){let a=i[0],{data:n}=await d.from("channels").select("id,handle,name,avatar_url").eq("id",a.channel_id).maybeSingle();return a.channels=n||{},{video:a,via:"rpc"}}}catch{}return{video:null,via:"none"}}async function Ut(t){try{await d.rpc("increment_video_views",{p_video_id:t})}catch{}let e=await b();try{await d.from("video_views").insert({video_id:t,user_id:e?.id||null,watch_seconds:0})}catch{}return!0}async function Rt(t,e,i,a){if(t)return await d.from("video_views").update({watch_seconds:i}).eq("id",t),t;let{data:n}=await d.from("video_views").insert({video_id:e,user_id:a||null,watch_seconds:i}).select("id").maybeSingle();return n?.id||null}async function At(t,{tab:e="videos",sort:i="relevance",days:a=0}={}){if(t=t.trim().replace(/,/g," "),!t)return{videos:[],channels:[],users:[]};let n=`%${t}%`,l={videos:[],channels:[],users:[]};if(e==="videos"||e==="all"){let o=K(d.from("videos").select(E)).or(`title.ilike.${n},description.ilike.${n}`);a&&(o=o.gte("created_at",new Date(Date.now()-a*864e5).toISOString())),o=i==="views"?o.order("view_count",{ascending:!1}):o.order("created_at",{ascending:!1});let{data:r}=await o.limit(30);l.videos=r||[]}if(e==="channels"||e==="all"){let{data:o}=await d.from("channels").select("id,handle,name,description,avatar_url").or(`name.ilike.${n},handle.ilike.${n}`).limit(20);l.channels=o||[]}if(e==="users"||e==="all"){let{data:o}=await d.from("profiles").select("id,username,display_name,avatar_url").or(`display_name.ilike.${n},username.ilike.${n}`).limit(20);l.users=o||[]}return l}async function Q(){let{data:t}=await d.from("categories").select("*").order("name");return t||[]}async function Vt(t){let{data:e}=await d.from("channels").select("*").eq("handle",t).maybeSingle();return e}async function it(t,{shorts:e=null,includePrivate:i=!1,limit:a=60}={}){let n=d.from("videos").select(E).eq("channel_id",t).eq("status","ready");i||(n=n.eq("visibility","public")),e===!0&&(n=n.lte("duration_secs",62)),e===!1&&(n=n.gt("duration_secs",62));let{data:l}=await n.order("created_at",{ascending:!1}).limit(a);return l||[]}async function at(t){let{count:e}=await d.from("subscriptions").select("id",{count:"exact",head:!0}).eq("channel_id",t);return e||0}async function ut(t){let e=await b();if(!e)return!1;let{data:i}=await d.from("subscriptions").select("channel_id").eq("channel_id",t).eq("user_id",e.id).maybeSingle();return!!i}async function _t(t){let e=await b();if(!e)throw new Error("auth");let i=await ut(t);return i?await d.from("subscriptions").delete().eq("channel_id",t).eq("user_id",e.id):await d.from("subscriptions").insert({channel_id:t,user_id:e.id}),!i}async function zt(t=30){let e=await b();if(!e)return[];let{data:i}=await d.from("subscriptions").select("channel_id").eq("user_id",e.id),a=(i||[]).map(l=>l.channel_id);if(!a.length)return[];let{data:n}=await K(d.from("videos").select(E)).in("channel_id",a).order("created_at",{ascending:!1}).limit(t);return n||[]}async function vt(t){let e=await b();if(!e)return{liked:!1,disliked:!1};let[i,a]=await Promise.all([d.from("likes").select("video_id").eq("video_id",t).eq("user_id",e.id).maybeSingle(),d.from("dislikes").select("video_id").eq("video_id",t).eq("user_id",e.id).maybeSingle()]);return{liked:!!i.data,disliked:!!a.data}}async function xt(t){let[e,i]=await Promise.all([d.from("likes").select("video_id",{count:"exact",head:!0}).eq("video_id",t),d.from("dislikes").select("video_id",{count:"exact",head:!0}).eq("video_id",t)]);return{likes:e.count||0,dislikes:i.count||0}}async function Bt(t){let e=await b();if(!e)throw new Error("auth");let i=await vt(t);return i.liked?await d.from("likes").delete().eq("video_id",t).eq("user_id",e.id):(await d.from("dislikes").delete().eq("video_id",t).eq("user_id",e.id),await d.from("likes").insert({video_id:t,user_id:e.id})),!i.liked}async function Wt(t){let e=await b();if(!e)throw new Error("auth");let i=await vt(t);return i.disliked?await d.from("dislikes").delete().eq("video_id",t).eq("user_id",e.id):(await d.from("likes").delete().eq("video_id",t).eq("user_id",e.id),await d.from("dislikes").insert({video_id:t,user_id:e.id})),!i.disliked}async function jt(t){let{data:e,error:i}=await d.from("comments").select("id,video_id,user_id,text,parent_id,created_at,profiles(display_name,avatar_url),comment_likes(count)").eq("video_id",t).is("parent_id",null).order("created_at",{ascending:!1}).limit(100);if(i)throw i;let a=(e||[]).map(c=>c.id),n=[];a.length&&(n=(await d.from("comments").select("id,video_id,user_id,text,parent_id,created_at,profiles(display_name,avatar_url),comment_likes(count)").in("parent_id",a).order("created_at",{ascending:!0})).data||[]);let l=await b(),o=new Set;if(l&&a.length){let c=await d.from("comment_likes").select("comment_id").eq("user_id",l.id).in("comment_id",[...a,...n.map(u=>u.id)]);o=new Set((c.data||[]).map(u=>u.comment_id))}let r={};for(let c of n)(r[c.parent_id]=r[c.parent_id]||[]).push(c);return(e||[]).map(c=>({...c,replies:r[c.id]||[],myLiked:o.has(c.id)})).map(c=>({...c,replies:c.replies.map(u=>({...u,myLiked:o.has(u.id)}))}))}function Ft(t){return t.comment_likes?.[0]?.count??0}async function $t(t,e,i=null){let a=await b();if(!a)throw new Error("auth");let{data:n,error:l}=await d.from("comments").insert({video_id:t,user_id:a.id,text:e.trim(),parent_id:i}).select().single();if(l)throw l;return n}async function It(t){let e=await b();if(!e)throw new Error("auth");let{error:i}=await d.from("comments").delete().eq("id",t).eq("user_id",e.id);if(i)throw i}async function Gt(t){let e=await b();if(!e)throw new Error("auth");let{data:i}=await d.from("comment_likes").select("comment_id").eq("comment_id",t).eq("user_id",e.id).maybeSingle();return i?await d.from("comment_likes").delete().eq("comment_id",t).eq("user_id",e.id):await d.from("comment_likes").insert({comment_id:t,user_id:e.id}),!i}async function ht(t,e){let i=await b();i&&await d.from("watch_history").upsert({user_id:i.id,video_id:t,progress_secs:Math.round(e),watched_at:new Date().toISOString()},{onConflict:"user_id,video_id"})}async function Ot(t=60){let e=await b();if(!e)return[];let{data:i}=await d.from("watch_history").select(`video_id,progress_secs,watched_at,videos(${E})`).eq("user_id",e.id).order("watched_at",{ascending:!1}).limit(t);return(i||[]).filter(a=>a.videos)}async function Yt(t){let e=await b();e&&await d.from("watch_history").delete().eq("user_id",e.id).eq("video_id",t)}async function Kt(){let t=await b();t&&await d.from("watch_history").delete().eq("user_id",t.id)}async function mt(t){let e=await b();if(!e)throw new Error("auth");let{data:i}=await d.from("watch_later").select("video_id").eq("video_id",t).eq("user_id",e.id).maybeSingle();return i?await d.from("watch_later").delete().eq("video_id",t).eq("user_id",e.id):await d.from("watch_later").insert({video_id:t,user_id:e.id}),!i}async function Xt(t){let e=await b();if(!e)return!1;let{data:i}=await d.from("watch_later").select("video_id").eq("video_id",t).eq("user_id",e.id).maybeSingle();return!!i}async function Jt(t=60){let e=await b();if(!e)return[];let{data:i}=await d.from("watch_later").select(`video_id,added_at,videos(${E})`).eq("user_id",e.id).order("added_at",{ascending:!1}).limit(t);return(i||[]).filter(a=>a.videos)}async function Qt(t=12){let e=await b();if(!e)return[];let{data:i}=await d.from("search_history").select("*").eq("user_id",e.id).order("searched_at",{ascending:!1}).limit(t);return i||[]}async function Zt(t){let e=await b();!e||!t.trim()||(await d.from("search_history").delete().eq("user_id",e.id).eq("query",t.trim()),await d.from("search_history").insert({user_id:e.id,query:t.trim()}))}async function te(t){let e=await b();e&&await d.from("search_history").delete().eq("id",t).eq("user_id",e.id)}async function ee(){let t=await b();t&&await d.from("search_history").delete().eq("user_id",t.id)}async function st(){let t=await b();if(!t)return[];let{data:e}=await d.from("playlists").select("*,playlist_videos(count)").eq("owner_id",t.id).order("created_at",{ascending:!1});return e||[]}async function ie(t){let{data:e}=await d.from("playlists").select("*,playlist_videos(count)").eq("owner_id",t).eq("visibility","public").order("created_at",{ascending:!1});return e||[]}async function ae(t,e="",i="public"){let a=await b();if(!a)throw new Error("auth");let{data:n,error:l}=await d.from("playlists").insert({owner_id:a.id,title:t.trim(),description:e.trim(),visibility:i}).select().single();if(l)throw l;return n}async function ci(t){let e=await b();if(!e)throw new Error("auth");await d.from("playlists").delete().eq("id",t).eq("owner_id",e.id)}async function se(t){let{data:e,error:i}=await d.from("playlists").select("*").eq("id",t).maybeSingle();if(i)throw i;if(!e)return null;let{data:a}=await d.from("playlist_videos").select(`position,added_at,videos(${E})`).eq("playlist_id",t).order("position");return e.items=(a||[]).filter(n=>n.videos),e}async function kt(t,e){let i=await b();if(!i)throw new Error("auth");let{data:a}=await d.from("playlists").select("id").eq("id",t).eq("owner_id",i.id).maybeSingle();if(!a)throw new Error("not-owner");let{count:n}=await d.from("playlist_videos").select("video_id",{count:"exact",head:!0}).eq("playlist_id",t);await d.from("playlist_videos").upsert({playlist_id:t,video_id:e,position:n||0},{onConflict:"playlist_id,video_id"})}async function ne(t,e){if(!await b())throw new Error("auth");await d.from("playlist_videos").delete().eq("playlist_id",t).eq("video_id",e)}async function oe(t=40){let e=await b();if(!e)return[];let{data:i}=await d.from("notifications").select("*").eq("user_id",e.id).order("created_at",{ascending:!1}).limit(t);return i||[]}async function le(){let t=await b();if(!t)return 0;let{count:e}=await d.from("notifications").select("id",{count:"exact",head:!0}).eq("user_id",t.id).eq("is_read",!1);return e||0}async function re(t){let e=await b();e&&await d.from("notifications").update({is_read:!0}).eq("id",t).eq("user_id",e.id)}async function de(){let t=await b();t&&await d.from("notifications").update({is_read:!0}).eq("user_id",t.id).eq("is_read",!1)}async function Lt(t,e,i){let a=await b();if(!a)throw new Error("auth");let{error:n}=await d.from("reports").insert({reporter_id:a.id,target_type:t,target_id:e,reason:i});if(n)throw n}async function Ct(t){let{data:e}=await d.from("videos").select("id,view_count,created_at,title").eq("channel_id",t).order("view_count",{ascending:!1}),i=e||[],a=i.map(m=>m.id),n=0,l=0,o=0;if(a.length){let[m,h,g]=await Promise.all([d.from("video_views").select("watch_seconds").in("video_id",a),d.from("likes").select("video_id",{count:"exact",head:!0}).in("video_id",a),d.from("comments").select("video_id",{count:"exact",head:!0}).in("video_id",a)]);n=(m.data||[]).reduce((x,H)=>x+(H.watch_seconds||0),0),l=h.count||0,o=g.count||0}let{count:r}=await d.from("subscriptions").select("id",{count:"exact",head:!0}).eq("channel_id",t),c=new Date(Date.now()-28*864e5).toISOString(),{count:u}=await d.from("subscriptions").select("id",{count:"exact",head:!0}).eq("channel_id",t).gte("created_at",c);return{totalViews:i.reduce((m,h)=>m+(h.view_count||0),0),watchSeconds:n,likeCount:l,commentCount:o,subs:r||0,subsGained:u||0,videoCount:i.length,topVideos:i.slice(0,5)}}async function ce(t,e=50){let{data:i}=await d.from("subscriptions").select("created_at,profiles(display_name,avatar_url)").eq("channel_id",t).order("created_at",{ascending:!1}).limit(e);return i||[]}async function ue(t,e=50){let{data:i}=await d.from("videos").select("id").eq("channel_id",t),a=(i||[]).map(l=>l.id);if(!a.length)return[];let{data:n}=await d.from("comments").select("id,text,created_at,video_id,profiles(display_name),videos(title)").in("video_id",a).order("created_at",{ascending:!1}).limit(e);return n||[]}async function pt(t=!1){if(ct!==null&&!t)return ct;let e=await yt(t);return ct=!!(e&&e.is_admin),ct}function ve(){ct=null}async function he(t=50,e=0){let{data:i}=await d.from("profiles").select("id,username,display_name,avatar_url,bio,is_admin,created_at").order("created_at",{ascending:!1}).range(e,e+t-1);return i||[]}async function me(t=50,e=0){let{data:i}=await d.from("videos").select("id,title,visibility,status,view_count,created_at,channels(name,handle)").order("created_at",{ascending:!1}).range(e,e+t-1);return i||[]}async function pe(t=50,e=0){let{data:i}=await d.from("comments").select("id,text,created_at,profiles(display_name),videos(title)").order("created_at",{ascending:!1}).range(e,e+t-1);return i||[]}async function fe(t="open"){let e=d.from("reports").select("*").order("created_at",{ascending:!1});t!=="all"&&(e=e.eq("status",t));let{data:i}=await e.limit(100),a=i||[],n=[...new Set(a.map(o=>o.reporter_id).filter(Boolean))],l={};if(n.length){let{data:o}=await d.from("profiles").select("id,display_name").in("id",n);l=Object.fromEntries((o||[]).map(r=>[r.id,r.display_name]))}return a.map(o=>({...o,reporter_name:l[o.reporter_id]||"\u2014"}))}async function be(t,e){await d.from("reports").update({status:e}).eq("id",t)}async function ye(t){await d.from("videos").delete().eq("id",t)}async function ge(t){await d.from("comments").delete().eq("id",t)}async function we(t,e){await d.from("profiles").update({is_admin:e}).eq("id",t)}async function _e(){let[t,e,i,a]=await Promise.all([d.from("profiles").select("id",{count:"exact",head:!0}),d.from("videos").select("id",{count:"exact",head:!0}),d.from("comments").select("id",{count:"exact",head:!0}),d.from("reports").select("id",{count:"exact",head:!0}).eq("status","open")]);return{users:t.count||0,videos:e.count||0,comments:i.count||0,openReports:a.count||0}}var E,ct,B=Tt(()=>{z();E="id,channel_id,title,description,video_url,thumbnail_url,duration_secs,visibility,view_count,category_id,tags,status,age_restricted,created_at,channels(id,handle,name,avatar_url)";ct=null});z();z();U();B();z();U();B();var Me=24;async function xe(t,e,i,a={}){t.innerHTML=`<div class="pagehead"><h1>${v(e)}</h1></div><div id="vg">${j(8)}</div>`;try{let n=await i(),l=s("#vg",t);l.innerHTML=n.length?`<div class="vgrid">${n.map(o=>F(o)).join("")}</div>`:_("\u{1F3AC}","Nothing here yet",a.empty||"Videos will show up here once creators upload.",a.cta||""),N(l)}catch{s("#vg",t).innerHTML=_("\u26A0\uFE0F","Could not load","Check your connection and try again.")}}async function He(t){let e=await Q().catch(()=>[]);t.innerHTML=`
+    <div class="chips" id="chips"><button class="chip on" data-cat="all">All</button>${e.map(r=>`<button class="chip" data-cat="${r.id}">${v(r.name)}</button>`).join("")}</div>
+    <div id="homeBody">${j(8)}</div>`;let i="all",a=0,n=!1,l=!1;async function o(r=!1){if(!(n||l&&!r)){n=!0,r&&(a=0,l=!1,s("#homeBody",t).innerHTML=j(8));try{let[c,u]=await Promise.all([gt({limit:Me,offset:a,category:i}),a===0?wt(10):Promise.resolve(null)]);a===0&&(s("#homeBody",t).innerHTML=`
+          ${u?.length?`<div class="sect"><h2><span class="bar"></span>Shorts</h2><div class="shelf">${u.map(Pt).join("")}</div></div>`:""}
+          <div class="sect"><h2><span class="bar"></span>Latest uploads</h2></div><div class="vgrid" id="hg"></div><div id="hMore" style="text-align:center;margin:26px"></div>`);let m=s("#hg",t);c.length?(m.insertAdjacentHTML("beforeend",c.map(h=>F(h)).join("")),N(m),a+=c.length,c.length<Me&&(l=!0)):l=!0,s("#hMore",t).innerHTML=l?"":'<button class="btn" id="hMoreBtn">Load more</button>',s("#hMoreBtn",t)?.addEventListener("click",()=>o())}catch{s("#homeBody",t).innerHTML=_("\u26A0\uFE0F","Could not load videos","Check your connection and retry.")}n=!1}}w("#chips .chip",t).forEach(r=>r.addEventListener("click",()=>{w("#chips .chip",t).forEach(c=>c.classList.remove("on")),r.classList.add("on"),i=r.dataset.cat,o(!0)})),o()}var Pe=t=>xe(t,"Trending now",()=>qt(36),{empty:"No trending videos this week yet."}),Ee=t=>xe(t,"Latest uploads",()=>gt({limit:36}));async function qe(t){await P()&&xe(t,"Latest from your subscriptions",()=>zt(36),{empty:"No videos from your subscriptions yet.",cta:'<a class="btn primary" href="#/">Discover videos</a>'})}async function De(t){if(!await P())return;t.innerHTML=`<div class="pagehead"><h1>Watch history</h1><div class="sp"><button class="btn sm danger" id="clrH">Clear all</button></div></div><div id="vg">${j(6)}</div>`;async function i(){let a=await Ot(),n=s("#vg",t);n.innerHTML=a.length?`<div class="vgrid">${a.map(l=>F({...l.videos,_prog:l.progress_secs})).join("")}</div>`:_("\u{1F558}","No watch history","Videos you watch will appear here."),N(n),w("#vg .vcard",t).forEach((l,o)=>{let r=document.createElement("button");r.className="icon-btn",r.title="Remove",r.innerHTML="\u2715",r.style.cssText="position:absolute;top:8px;right:8px;background:rgba(0,0,0,.6);color:#fff",r.onclick=async c=>{c.stopPropagation(),await Yt(a[o].video_id),i()},s(".thumb",l).appendChild(r)})}s("#clrH",t).onclick=async()=>{await S("Clear watch history?","This removes all videos from your history.")&&(await Kt(),i())},i()}async function Ne(t){if(!await P())return;t.innerHTML=`<div class="pagehead"><h1>Watch Later</h1></div><div id="vg">${j(6)}</div>`;async function i(){let a=await Jt(),n=s("#vg",t);n.innerHTML=a.length?`<div class="vgrid">${a.map(l=>F(l.videos)).join("")}</div>`:_("\u{1F516}","Nothing saved yet",'Tap "Save" on any video to watch it later.'),N(n),w("#vg .vcard",t).forEach((l,o)=>{let r=document.createElement("button");r.className="icon-btn",r.title="Remove",r.innerHTML="\u2715",r.style.cssText="position:absolute;top:8px;right:8px;background:rgba(0,0,0,.6);color:#fff",r.onclick=async c=>{c.stopPropagation(),await mt(a[o].video_id),f("Removed from Watch Later"),i()},s(".thumb",l).appendChild(r)})}i()}async function Ue(t){if(!await P())return;t.innerHTML=`<div class="pagehead"><h1>Your playlists</h1><div class="sp"><button class="btn primary sm" id="newPl">+ New playlist</button></div></div><div id="vg">${j(4)}</div>`;let{createPlaylist:i}=await Promise.resolve().then(()=>(B(),ft));s("#newPl",t).onclick=async()=>{let{promptDlg:n}=await Promise.resolve().then(()=>(U(),dt)),l=await n("New playlist","Playlist title","","My playlist");l&&(await i(l),f("Playlist created"),a())};async function a(){let n=await st();s("#vg",t).innerHTML=n.length?`<div class="vgrid">${n.map(l=>`
+      <article class="vcard" data-go="#/playlist/${l.id}">
+        <div class="thumb" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#2a1245,#0e2a3a)"><span style="font-size:40px">\u25A4</span></div>
+        <div class="vmeta"><div><div class="vtitle">${v(l.title)}</div><div class="vsub">${l.playlist_videos?.[0]?.count??0} videos \xB7 ${v(l.visibility)}</div></div></div>
+      </article>`).join("")}</div>`:_("\u25A4","No playlists yet","Create playlists to organize videos you love."),N(s("#vg",t))}a()}async function Re(t,e){t.innerHTML=`<div id="pg">${j(4)}</div>`;let{deletePlaylist:i}=await Promise.resolve().then(()=>(B(),ft));async function a(){let n=await se(e);if(!n){s("#pg",t).innerHTML=_("\u25A4","Playlist not found","It may be private or deleted.");return}let l=await b(),o=l&&n.owner_id===l.id;s("#pg",t).innerHTML=`
+      <div class="pagehead"><h1>${v(n.title)}</h1>
+      ${o?'<div class="sp"><button class="btn sm danger" id="delPl">Delete playlist</button></div>':""}</div>
+      <p style="color:var(--mut);margin-bottom:18px">${v(n.description||"")} \xB7 ${n.items.length} videos \xB7 ${v(n.visibility)}</p>
+      ${n.items.length?`<div class="vgrid">${n.items.map(r=>F(r.videos)).join("")}</div>`:_("\u25A4","Empty playlist","Add videos from any watch page using Save.")}
+    `,N(s("#pg",t)),o&&(w("#pg .vcard",t).forEach((r,c)=>{let u=document.createElement("button");u.className="icon-btn",u.title="Remove from playlist",u.innerHTML="\u2715",u.style.cssText="position:absolute;top:8px;right:8px;background:rgba(0,0,0,.6);color:#fff",u.onclick=async m=>{m.stopPropagation(),await ne(e,n.items[c].videos.id),a()},s(".thumb",r).appendChild(u)}),s("#delPl",t).onclick=async()=>{await S("Delete playlist?",`"${n.title}" will be permanently deleted.`)&&(await i(e),location.hash="#/playlists")})}a()}async function Ae(t,e){let i=e.get("q")||"",a=e.get("tab")||"videos";t.innerHTML=`
+    <div class="pagehead"><h1>Search</h1></div>
+    <form id="sForm" class="row" style="max-width:640px;margin-bottom:14px">
+      <input id="sIn" placeholder="Search videos, channels, people\u2026" value="${v(i)}" style="flex:1">
+      <button class="btn primary" type="submit">Search</button>
+    </form>
+    <div class="tabs" id="sTabs">
+      <button class="tab ${a==="videos"?"on":""}" data-t="videos">Videos</button>
+      <button class="tab ${a==="channels"?"on":""}" data-t="channels">Channels</button>
+      <button class="tab ${a==="users"?"on":""}" data-t="users">People</button>
+    </div>
+    <div class="row" style="max-width:640px;margin-bottom:14px;gap:8px">
+      <select id="sSort" style="max-width:170px"><option value="relevance">Most relevant</option><option value="latest">Latest</option><option value="views">Most viewed</option></select>
+      <select id="sDays" style="max-width:170px"><option value="0">Any time</option><option value="1">Today</option><option value="7">This week</option><option value="30">This month</option></select>
+    </div>
+    <div id="sHist"></div><div id="sRes"></div>`;let n=a,l=async r=>{let c=s("#sIn",t).value.trim();if(c){r&&history.replaceState(null,"",`#/search?q=${encodeURIComponent(c)}&tab=${n}`),s("#sRes",t).innerHTML=j(6),await Zt(c);try{let u=await At(c,{tab:n,sort:s("#sSort",t).value,days:+s("#sDays",t).value}),m="";n==="videos"&&(m=u.videos.length?`<div class="vgrid">${u.videos.map(h=>F(h)).join("")}</div>`:_("\u{1F50D}","No videos found",`Nothing matched "${c}".`)),n==="channels"&&(m=u.channels.length?`<div class="vgrid">${u.channels.map(h=>`
+        <article class="vcard" data-go="#/channel/${v(h.handle)}"><div class="vmeta" style="padding:18px">${L(h.avatar_url,h.name,"lg")}
+        <div><div class="vtitle">${v(h.name)}</div><div class="vsub">@${v(h.handle)}</div><div class="vsub">${v((h.description||"").slice(0,90))}</div></div></div></article>`).join("")}</div>`:_("\u{1F50D}","No channels found",`Nothing matched "${c}".`)),n==="users"&&(m=u.users.length?`<div class="vgrid">${u.users.map(h=>`
+        <article class="vcard"><div class="vmeta" style="padding:18px">${L(h.avatar_url,h.display_name||h.username,"lg")}
+        <div><div class="vtitle">${v(h.display_name||h.username||"User")}</div><div class="vsub">@${v(h.username||"user")}</div></div></div></article>`).join("")}</div>`:_("\u{1F50D}","No people found",`Nothing matched "${c}".`)),s("#sRes",t).innerHTML=m,N(s("#sRes",t)),o()}catch{s("#sRes",t).innerHTML=_("\u26A0\uFE0F","Search failed","Try again in a moment.")}}};async function o(){let r=await Qt();s("#sHist",t).innerHTML=r.length?`
+      <div class="row" style="margin-bottom:10px"><b style="font-size:14px">Recent searches</b><span style="flex:1"></span><button class="link" id="clrS" style="font-size:13px">Clear all</button></div>
+      <div class="tagrow" style="margin:0 0 18px">${r.map(c=>`<span class="tag" style="cursor:pointer" data-q="${v(c.query)}">${v(c.query)} <b data-del="${c.id}" style="cursor:pointer;margin-left:6px">\u2715</b></span>`).join("")}</div>`:"",w("#sHist [data-q]",t).forEach(c=>c.addEventListener("click",u=>{let m=u.target.closest("[data-del]");if(m){u.stopPropagation(),te(m.dataset.del).then(o);return}s("#sIn",t).value=c.dataset.q,l(!0)})),s("#clrS",t)?.addEventListener("click",()=>ee().then(o))}s("#sForm",t).onsubmit=r=>{r.preventDefault(),l(!0)},w("#sTabs .tab",t).forEach(r=>r.onclick=()=>{n=r.dataset.t,w("#sTabs .tab",t).forEach(c=>c.classList.toggle("on",c===r)),l(!1)}),s("#sSort",t).onchange=()=>l(!1),s("#sDays",t).onchange=()=>l(!1),o(),i&&l(!1)}async function Ve(t,e){t.innerHTML='<div id="shWrap" style="position:fixed;inset:var(--hdr) 0 var(--bnav) 0;background:#000;z-index:40;overflow:hidden"></div>';let i=s("#shWrap",t),a=[],n=0,l=!1;async function o(){if(l)return;l=!0;let m=await wt(12,a.length).catch(()=>[]);a=a.concat(m),l=!1,n===0&&a.length&&r(0)}function r(m){n=Math.max(0,Math.min(a.length-1,m));let h=a[n];if(!h)return;i.innerHTML=`
+      <video id="shV" src="${v(h.video_url)}" loop playsinline style="width:100%;height:100%;object-fit:contain;background:#000"></video>
+      <div style="position:absolute;right:10px;bottom:90px;display:flex;flex-direction:column;gap:14px;align-items:center">
+        <button class="icon-btn" id="shLike" style="background:rgba(0,0,0,.5);color:#fff;flex-direction:column;font-size:11px">\u2665<span id="shLikeN"></span></button>
+        <button class="icon-btn" id="shCom" style="background:rgba(0,0,0,.5);color:#fff">\u{1F4AC}</button>
+        <button class="icon-btn" id="shShare" style="background:rgba(0,0,0,.5);color:#fff">\u2197</button>
+      </div>
+      <div style="position:absolute;left:12px;bottom:26px;right:76px;color:#fff">
+        <div style="font-weight:800;margin-bottom:6px">@${v(h.channels?.handle||"watchind")}</div>
+        <div style="font-size:14px;line-height:1.45">${v(h.title)}</div>
+      </div>
+      <button class="icon-btn" id="shX" style="position:absolute;top:10px;left:10px;color:#fff;background:rgba(0,0,0,.5)">\u2715</button>`;let g=s("#shV",i);g.play().catch(()=>{}),i.onclick=x=>{x.target===g&&(g.paused?g.play():g.pause())},s("#shX",i).onclick=()=>history.back(),s("#shShare",i).onclick=()=>{let{copyLink:x}=window.__wui;x(`${location.origin}${location.pathname}#/watch/${h.id}`)},s("#shCom",i).onclick=()=>location.hash=`#/watch/${h.id}`,Promise.resolve().then(()=>(B(),ft)).then(async({getLikeCounts:x,toggleLike:H})=>{let M=await b(),q=await x(h.id);s("#shLikeN",i).textContent=y(q.likes),s("#shLike",i).onclick=async()=>{if(!M){location.hash="#/login";return}await H(h.id);let J=await x(h.id);s("#shLikeN",i).textContent=y(J.likes),f("Liked")}}),n>=a.length-3&&o()}let c=0;i.addEventListener("touchstart",m=>c=m.touches[0].clientY,{passive:!0}),i.addEventListener("touchend",m=>{let h=m.changedTouches[0].clientY-c;h<-50?r(n+1):h>50&&r(n-1)},{passive:!0}),i.addEventListener("wheel",Mt(m=>{r(n+(m.deltaY>0?1:-1))},120),{passive:!0}),document.addEventListener("keydown",function m(h){if(!document.body.contains(i))return document.removeEventListener("keydown",m);h.key==="ArrowDown"&&r(n+1),h.key==="ArrowUp"&&r(n-1)});let{copyLink:u}=await Promise.resolve().then(()=>(U(),dt));return window.__wui={copyLink:u},await o(),a.length||(i.remove(),t.innerHTML=_("\u{1F3AC}","No shorts yet","Short videos (under 62 seconds) will appear here.")),()=>{i.remove()}}z();U();U();function ze(t,e,i={}){let{poster:a="",autoplay:n=!1,onProgress:l=null,onEnded:o=null,startAt:r=0}=i;t.innerHTML=`
+  <div class="player paused" id="wp">
+    <video src="${e}" ${a?`poster="${a}"`:""} playsinline preload="metadata"></video>
+    <div class="spin" id="wspin" style="display:none"></div>
+    <div class="bigplay" id="wbig"><span><svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span></div>
+    <div class="pctl" id="wpctl">
+      <div class="pbar" id="wbar"><div class="pbuf" id="wbuf"></div><div class="pfill" id="wfill"></div></div>
+      <div class="prow">
+        <button class="icon-btn" id="wplay" aria-label="Play/Pause" style="color:#fff">
+          <svg id="wicoP" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <button class="icon-btn" id="wmute" aria-label="Mute" style="color:#fff">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4z" fill="currentColor" stroke="none"/><path d="M15.5 8.5a5 5 0 010 7"/></svg>
+        </button>
+        <span class="ptime"><span id="wcur">0:00</span> / <span id="wdur">0:00</span></span>
+        <span style="flex:1"></span>
+        <button class="icon-btn" id="wqual" aria-label="Quality" style="color:#fff;font-size:12px;font-weight:800;border:1px solid rgba(255,255,255,.4);border-radius:6px;padding:2px 8px;width:auto;height:auto">Auto</button>
+        <button class="icon-btn" id="wfull" aria-label="Fullscreen" style="color:#fff">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="pmenu" id="wmenu" style="display:none"></div>
+  </div>`;let c=s("#wp",t),u=s("video",c),m='<path d="M8 5v14l11-7z"/>',h='<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>',g=[{label:"Auto",src:e}],x=null,H=0;function M(){c.classList.add("touched"),clearTimeout(x),x=setTimeout(()=>c.classList.remove("touched"),2600)}function q(){s("#wicoP",c).innerHTML=u.paused?m:h,c.classList.toggle("paused",u.paused),s("#wbig",c).style.display=u.paused?"flex":"none"}function J(){s("#wcur",c).textContent=D(u.currentTime),s("#wdur",c).textContent=D(u.duration||0)}u.addEventListener("play",q),u.addEventListener("pause",q),u.addEventListener("loadedmetadata",()=>{J(),r>0&&r<u.duration-2&&(u.currentTime=r)}),u.addEventListener("timeupdate",()=>{J();let p=u.duration?u.currentTime/u.duration*100:0;s("#wfill",c).style.width=p+"%",l&&u.currentTime-H>5&&(H=u.currentTime,l(u.currentTime,u.duration))}),u.addEventListener("progress",()=>{try{let p=u.buffered;p.length&&u.duration&&(s("#wbuf",c).style.width=p.end(p.length-1)/u.duration*100+"%")}catch{}}),u.addEventListener("waiting",()=>s("#wspin",c).style.display="block"),u.addEventListener("playing",()=>s("#wspin",c).style.display="none"),u.addEventListener("ended",()=>{l&&l(u.duration,u.duration,!0),o&&o()}),u.addEventListener("click",()=>{u.paused?u.play():u.pause(),M()}),c.addEventListener("mousemove",M),c.addEventListener("touchstart",M,{passive:!0}),s("#wplay",c).onclick=p=>{p.stopPropagation(),u.paused?u.play():u.pause(),M()},s("#wmute",c).onclick=p=>{p.stopPropagation(),u.muted=!u.muted,p.currentTarget.style.opacity=u.muted?.45:1,M()},s("#wfull",c).onclick=p=>{p.stopPropagation(),document.fullscreenElement?document.exitFullscreen():c.requestFullscreen?c.requestFullscreen():u.webkitEnterFullscreen&&u.webkitEnterFullscreen()},s("#wbar",c).onclick=p=>{p.stopPropagation();let $=p.currentTarget.getBoundingClientRect(),T=Math.min(1,Math.max(0,(p.clientX-$.left)/$.width));u.duration&&(u.currentTime=T*u.duration)};function ot(){let p=s("#wmenu",c);p.innerHTML=g.map(($,T)=>`<button data-i="${T}" class="${T===0?"on":""}"><span>${$.label}</span>${T===0?"<span>\u2713</span>":""}</button>`).join(""),p.style.display="block",p.onclick=$=>{let T=$.target.closest("button");if(!T)return;let C=+T.dataset.i,R=u.currentTime,si=u.paused;u.src=g[C].src,u.currentTime=Math.min(R,u.duration||R),si||u.play(),s("#wqual",c).textContent=g[C].label,[...p.children].forEach((ni,oi)=>ni.classList.toggle("on",oi===C)),p.style.display="none",M()}}return s("#wqual",c).onclick=p=>{p.stopPropagation();let $=s("#wmenu",c);$.style.display==="block"?$.style.display="none":ot(),M()},document.addEventListener("keydown",function($){$.key==="Escape"&&document.body.contains(c)&&(s("#wmenu",c).style.display="none")}),n&&u.play().catch(()=>{}),M(),q(),{el:u,setRenditions(p){p?.length&&(g=p,s("#wqual",c).textContent=p[0].label)},destroy(){try{u.pause(),u.removeAttribute("src"),u.load()}catch{}}}}B();async function Be(t,e){t.innerHTML='<div class="skel skel-card"></div><div class="skel skel-line"></div><div class="skel skel-line" style="width:60%"></div>';let{video:i}=await Nt(e).catch(()=>({video:null}));if(!i){t.innerHTML=_("\u{1F512}","Video unavailable","This video is private, deleted, or the link is wrong.");return}let a=await b(),n=a&&i.channels&&(await I(a.id))?.id===i.channel_id,[l,o,r,c,u]=await Promise.all([vt(e).catch(()=>({liked:!1,disliked:!1})),xt(e).catch(()=>({likes:0,dislikes:0})),i.channels?.id?ut(i.channels.id).catch(()=>!1):!1,i.channels?.id?at(i.channels.id).catch(()=>0):0,Xt(e).catch(()=>!1)]);t.innerHTML=`
+  <div class="wlayout">
+    <div>
+      <div id="pMount"></div>
+      <h1 class="wtitle">${v(i.title)}</h1>
+      <div class="wrow">
+        <div class="chanline">
+          <a data-go="#/channel/${v(i.channels?.handle||"")}">${L(i.channels?.avatar_url,i.channels?.name)}</a>
+          <div><div class="nm">${v(i.channels?.name||"Channel")}</div><div class="hs">${y(c)} subscribers</div></div>
+          ${a&&!n?`<button class="btn sm ${r?"":"primary"}" id="wSub" style="margin-left:10px">${r?"Subscribed":"Subscribe"}</button>`:""}
+        </div>
+        <div class="wactions">
+          <button class="pill ${l.liked?"on":""}" id="wLike">\u{1F44D} <span class="cnt" id="wLikeN">${y(o.likes)}</span></button>
+          <button class="pill ${l.disliked?"on":""}" id="wDis">\u{1F44E} <span class="cnt" id="wDisN">${y(o.dislikes)}</span></button>
+          <button class="pill" id="wShare">\u2197 Share</button>
+          <button class="pill ${u?"on":""}" id="wSave">\u{1F516} <span id="wSaveT">${u?"Saved":"Save"}</span></button>
+          ${a?'<button class="pill" id="wReport" title="Report">\u2691</button>':""}
+        </div>
+      </div>
+      <div class="vsub" style="margin:10px 0">${y(i.view_count)} views \xB7 ${G(i.created_at)}${i.visibility!=="public"?` \xB7 ${v(i.visibility)}`:""}${i.age_restricted?" \xB7 18+":""}</div>
+      <div class="desc clamp" id="wDesc">${v(i.description||"No description.")}</div>
+      ${(i.tags||[]).length?`<div class="tagrow">${i.tags.map(p=>`<span class="tag">#${v(p)}</span>`).join("")}</div>`:""}
+      <div class="sect"><h2><span class="bar"></span>Comments <span style="color:var(--mut);font-size:14px" id="cCount"></span></h2></div>
+      <div id="cList"></div>
+    </div>
+    <div class="rail"><h3>Up next</h3><div id="wRec"><div class="skel skel-line"></div><div class="skel skel-line"></div></div></div>
+  </div>`,N(t),s("#wDesc",t).onclick=p=>p.currentTarget.classList.toggle("clamp");let m=null,h=0,g=0,x=null,H=ze(s("#pMount",t),i.video_url,{poster:i.thumbnail_url||"",startAt:0,onProgress:async(p,$,T=!1)=>{a&&(h+=Math.max(0,p-g),g=p,m=await Rt(m,e,Math.round(h),a.id).catch(()=>m),(T||p%30<6)&&ht(e,p).catch(()=>{}))}}),M="wv_"+e;if(sessionStorage.getItem(M)||(sessionStorage.setItem(M,"1"),Ut(e).catch(()=>{})),a){let{data:p}=await d.from("watch_history").select("progress_secs").eq("user_id",a.id).eq("video_id",e).maybeSingle();p&&p.progress_secs>10&&(H.el.currentTime=p.progress_secs,f("Resumed where you left off")),x=setInterval(()=>{H.el.paused||ht(e,H.el.currentTime).catch(()=>{})},3e4)}let q=()=>a?!1:(location.hash="#/login?next="+encodeURIComponent("/watch/"+e),!0);async function J(){let p=await xt(e).catch(()=>({likes:0,dislikes:0}));s("#wLikeN",t).textContent=y(p.likes),s("#wDisN",t).textContent=y(p.dislikes)}s("#wLike",t).onclick=async()=>{if(q())return;let p=await Bt(e).catch(()=>null);p!==null&&(s("#wLike",t).classList.toggle("on",p),s("#wDis",t).classList.remove("on"),J(),f(p?"Added to liked videos":"Like removed"))},s("#wDis",t).onclick=async()=>{if(q())return;let p=await Wt(e).catch(()=>null);p!==null&&(s("#wDis",t).classList.toggle("on",p),s("#wLike",t).classList.remove("on"),J())},s("#wShare",t).onclick=()=>Et(),s("#wSave",t).onclick=async()=>{if(q())return;let{el:p,close:$}=et(`<h3>Save to\u2026</h3><div id="svList"><p style="color:var(--mut)">Loading playlists\u2026</p></div>
+      <div class="field" style="margin-top:12px"><div class="row"><input id="svNew" placeholder="New playlist name" style="flex:1"><button class="btn sm primary" id="svCreate">Create</button></div></div>
+      <div class="row" style="margin-top:12px"><button class="btn sm" id="svWL">\u{1F516} ${u?"Remove from":"Add to"} Watch Later</button><span style="flex:1"></span><button class="btn ghost sm" id="svX">Done</button></div>`),T=async()=>{let C=await st();s("#svList",p).innerHTML=C.length?C.map(R=>`<button class="pill" data-pl="${R.id}" style="margin:0 6px 8px 0">\u25A4 ${v(R.title)}</button>`).join(""):'<p style="color:var(--mut)">No playlists yet \u2014 create one below.</p>',w("#svList [data-pl]",p).forEach(R=>R.onclick=async()=>{await kt(R.dataset.pl,e),f("Saved to playlist")})};T(),s("#svCreate",p).onclick=async()=>{let C=s("#svNew",p).value.trim();if(C){let R=await ae(C);await kt(R.id,e),f("Created and saved"),T()}},s("#svWL",p).onclick=async()=>{let C=await mt(e);s("#wSaveT",t).textContent=C?"Saved":"Save",s("#wSave",t).classList.toggle("on",C),f(C?"Saved to Watch Later":"Removed from Watch Later"),$()},s("#svX",p).onclick=$},s("#wSub",t)?.addEventListener("click",async()=>{let p=await _t(i.channels.id),$=s("#wSub",t);$.textContent=p?"Subscribed":"Subscribe",$.classList.toggle("primary",!p),f(p?`Subscribed to ${i.channels.name}`:"Unsubscribed")}),s("#wReport",t)?.addEventListener("click",async()=>{let{el:p,close:$}=et(`<h3>Report video</h3><p>Why are you reporting this video?</p>
+      <div class="field"><select id="rpR"><option>Spam or misleading</option><option>Hateful content</option><option>Violent content</option><option>Nudity / sexual content</option><option>Copyright issue</option><option>Other</option></select></div>
+      <div class="row"><button class="btn ghost" id="rpX">Cancel</button><button class="btn danger" id="rpGo">Report</button></div>`);s("#rpX",p).onclick=$,s("#rpGo",p).onclick=async()=>{await Lt("video",e,s("#rpR",p).value),$(),f("Thanks \u2014 our team will review this")}}),Dt(i).then(p=>{s("#wRec",t).innerHTML=p.length?p.map($=>`
+      <article class="vcard" data-go="#/watch/${$.id}"><div class="thumb">${$.thumbnail_url?`<img src="${v($.thumbnail_url)}" loading="lazy">`:""}<span class="dur">${D($.duration_secs)}</span></div>
+      <div class="vmeta"><div><div class="vtitle">${v($.title)}</div><div class="vsub">${v($.channels?.name||"")} \xB7 ${y($.view_count)} views</div></div></div></article>`).join(""):'<p style="color:var(--mut)">No recommendations yet.</p>',N(s("#wRec",t))}),await ot();async function ot(){let p=await jt(e).catch(()=>[]);s("#cCount",t).textContent=`(${p.length})`;let $=!!a;if(s("#cList",t).innerHTML=`
+      ${$?`<div class="cbox">${L(null,a.email)}<div style="flex:1"><div class="row"><input id="cIn" placeholder="Add a comment\u2026" style="flex:1"><button class="btn primary sm" id="cGo">Post</button></div></div></div>`:'<p style="color:var(--mut);margin:14px 0"><a class="link" href="#/login">Sign in</a> to join the conversation.</p>'}
+      <div id="cItems">${p.map(T=>We(T)).join("")||'<p style="color:var(--mut)">Be the first to comment.</p>'}</div>`,$){let T=async(C,R=null)=>{C.trim()&&(await $t(e,C,R),f("Comment posted"),ot())};s("#cGo",t).onclick=()=>T(s("#cIn",t).value),s("#cIn",t).addEventListener("keydown",C=>{C.key==="Enter"&&T(C.target.value)})}ui(s("#cItems",t),ot,e,a)}return()=>{clearInterval(x),H.destroy(),a&&!H.el.paused&&ht(e,H.el.currentTime).catch(()=>{})}}function We(t,e=0){let i=Ft(t);return`
+  <div class="citem" data-cid="${t.id}">
+    ${L(t.profiles?.avatar_url,t.profiles?.display_name||"User")}
+    <div class="cbody">
+      <div class="chead"><b>${v(t.profiles?.display_name||"User")}</b><span>${V(t.created_at)}</span></div>
+      <div class="ctext">${v(t.text)}</div>
+      <div class="cacts">
+        <button class="icon-btn ${t.myLiked?"on":""}" data-cl title="Like">\u2665 <span>${i||""}</span></button>
+        <button class="icon-btn" data-reply title="Reply">\u21A9 Reply</button>
+        <button class="icon-btn" data-cdel title="Delete" style="margin-left:auto">\u{1F5D1}</button>
+      </div>
+      <div class="creplybox"></div>
+      ${t.replies?.length?`<div>${t.replies.map(a=>We(a,e+1)).join("")}</div>`:""}
+    </div>
+  </div>`}function ui(t,e,i,a){t.onclick=async n=>{let l=n.target.closest("[data-cid]");if(!l)return;let o=l.dataset.cid;if(n.target.closest("[data-cl]")){if(!a){location.hash="#/login";return}await Gt(o).catch(()=>f("Failed")),e()}else if(n.target.closest("[data-reply]")){if(!a){location.hash="#/login";return}let r=s(".creplybox",l);if(r.innerHTML){r.innerHTML="";return}r.innerHTML='<div class="row" style="margin-top:8px"><input placeholder="Write a reply\u2026" style="flex:1"><button class="btn primary sm">Reply</button></div>';let c=s("input",r);s("button",r).onclick=async()=>{await $t(i,c.value,o),f("Reply posted"),e()},c.focus()}else if(n.target.closest("[data-cdel]")){if(!a)return;await S("Delete comment?","This cannot be undone.")&&(await It(o).catch(()=>f("You can only delete your own comments")),e())}}}async function je(t,e){t.innerHTML='<div class="skel skel-card"></div>';let i=await Vt(e).catch(()=>null);if(!i){t.innerHTML=_("\u{1F4FA}","Channel not found","Check the handle and try again.");return}let a=await b(),n=a&&i.owner_id===a.id,[l,o,r,c,u]=await Promise.all([at(i.id),ut(i.id).catch(()=>!1),it(i.id,{shorts:!1,includePrivate:n}),it(i.id,{shorts:!0,includePrivate:n}),n?st():ie(i.owner_id)]),m="videos";t.innerHTML=`
+    <div class="banner" ${i.banner_url?`style="background-image:url('${v(i.banner_url)}')"`:""}></div>
+    <div class="chead2">
+      ${L(i.avatar_url,i.name,"xl")}
+      <div style="flex:1;min-width:200px"><div class="chnm">${v(i.name)}</div>
+      <div class="chsub">@${v(i.handle)} \xB7 ${y(l)} subscribers \xB7 ${r.length+c.length} videos</div></div>
+      ${n?'<a class="btn sm" href="#/studio">Creator Studio</a>':a?`<button class="btn sm ${o?"":"primary"}" id="chSub">${o?"Subscribed":"Subscribe"}</button>`:'<a class="btn sm primary" href="#/login">Subscribe</a>'}
+      ${a&&!n?'<button class="pill" id="chRep" title="Report channel">\u2691</button>':""}
+    </div>
+    <div class="tabs">
+      <button class="tab on" data-t="videos">Videos</button>
+      <button class="tab" data-t="shorts">Shorts</button>
+      <button class="tab" data-t="playlists">Playlists</button>
+      <button class="tab" data-t="about">About</button>
+    </div>
+    <div id="chBody"></div>`;function h(){let g=s("#chBody",t);m==="videos"?g.innerHTML=r.length?`<div class="vgrid">${r.map(x=>F(x,{hideChannel:!0})).join("")}</div>`:_("\u{1F3AC}","No videos yet",n?"Upload your first video from Creator Studio.":"This channel has no videos yet."):m==="shorts"?g.innerHTML=c.length?`<div class="shelf">${c.map(shortCard).join("")}</div>`:_("\u{1F4F1}","No shorts yet","Short videos under 62 seconds appear here."):m==="playlists"?g.innerHTML=u.length?`<div class="vgrid">${u.map(x=>`<article class="vcard" data-go="#/playlist/${x.id}"><div class="thumb" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#2a1245,#0e2a3a)"><span style="font-size:40px">\u25A4</span></div><div class="vmeta"><div><div class="vtitle">${v(x.title)}</div><div class="vsub">${x.playlist_videos?.[0]?.count??0} videos</div></div></div></article>`).join("")}</div>`:_("\u25A4","No playlists",n?"Create playlists in your library.":""):g.innerHTML=`<div class="panel" style="max-width:640px"><h3>About</h3><p style="white-space:pre-wrap;line-height:1.7">${v(i.description||"No description yet.")}</p><div class="kv"><span>Handle</span><b>@${v(i.handle)}</b></div><div class="kv"><span>Joined</span><b>${G(i.created_at)}</b></div><div class="kv"><span>Subscribers</span><b>${y(l)}</b></div></div>`,N(g)}w(".tab",t).forEach(g=>g.onclick=()=>{w(".tab",t).forEach(x=>x.classList.remove("on")),g.classList.add("on"),m=g.dataset.t,h()}),s("#chSub",t)?.addEventListener("click",async g=>{let x=await _t(i.id);g.target.textContent=x?"Subscribed":"Subscribe",g.target.classList.toggle("primary",!x),f(x?`Subscribed to ${i.name}`:"Unsubscribed")}),s("#chRep",t)?.addEventListener("click",async()=>{await S("Report channel?","Report this channel for review.")&&(await Lt("channel",i.id,"Reported by user"),f("Thanks \u2014 our team will review this"))}),h()}async function Fe(t){let e=await P();if(!e)return;let i=await I(e.id);if(i){location.hash="#/channel/"+i.handle;return}t.innerHTML=`
+  <div class="form" style="max-width:600px"><h1>Create your channel</h1><p class="sub">Your public home on WatchInd.</p>
+    <div id="cErr"></div>
+    <div class="field"><label>Channel name</label><input id="cName" placeholder="e.g. Tech Duniya" maxlength="60"></div>
+    <div class="field"><label>Handle (unique, no spaces)</label><input id="cHandle" placeholder="e.g. techduniya" maxlength="30"></div>
+    <div class="field"><label>Description</label><textarea id="cDesc" placeholder="What is your channel about?" maxlength="500"></textarea></div>
+    <button class="btn primary" id="cGo" style="width:100%">Create channel</button>
+  </div>`,s("#cGo",t).onclick=async()=>{let a=s("#cName",t).value.trim(),n=s("#cHandle",t).value.trim().toLowerCase().replace(/[^a-z0-9_.]/g,""),l=s("#cDesc",t).value.trim(),o=u=>s("#cErr",t).innerHTML=`<div class="err">${v(u)}</div>`;if(a.length<2)return o("Channel name needs at least 2 characters.");if(n.length<3)return o("Handle needs at least 3 characters (letters, numbers, _ .).");s("#cGo",t).disabled=!0;let{data:r,error:c}=await d.from("channels").insert({owner_id:e.id,name:a,handle:n,description:l}).select().single();if(s("#cGo",t).disabled=!1,c)return o(c.code==="23505"?"That handle is taken \u2014 try another.":"Could not create channel. Try again.");f("Channel created \u2014 welcome to WatchInd!"),location.hash="#/channel/"+r.handle}}z();U();z();function O(t,e,i){return new Promise(async(a,n)=>{let l=await b();if(!l)return n(new Error("auth"));let{data:o}=await d.auth.getSession(),r=o.session?.access_token;if(!r)return n(new Error("auth"));let c=(e.name.split(".").pop()||"bin").toLowerCase().replace(/[^a-z0-9]/g,""),u=`${l.id}/${Date.now()}-${Math.random().toString(36).slice(2,8)}.${c}`,m=`${bt}/storage/v1/object/${t}/${u}`,h=new XMLHttpRequest;h.open("POST",m),h.setRequestHeader("apikey",St),h.setRequestHeader("Authorization",`Bearer ${r}`),h.setRequestHeader("x-upsert","false"),h.upload.onprogress=x=>{x.lengthComputable&&i&&i(x.loaded/x.total)},h.onload=()=>{h.status>=200&&h.status<300?a(u):n(new Error(`Upload failed (${h.status}): ${h.responseText.slice(0,160)}`))},h.onerror=()=>n(new Error("Network error during upload")),h.onabort=()=>n(new Error("Upload cancelled"));let g=new FormData;g.append("file",e,e.name),h.send(g),O._last=h})}function Ie(){try{O._last?.abort()}catch{}}function Ge(t){return new Promise(e=>{let i=URL.createObjectURL(t),a=document.createElement("video");a.preload="metadata",a.onloadedmetadata=()=>{URL.revokeObjectURL(i),e(Math.round(a.duration)||0)},a.onerror=()=>{URL.revokeObjectURL(i),e(0)},a.src=i})}function W(t,e){s("#aErr",t).innerHTML=e?`<div class="err">${v(e)}</div>`:""}async function Oe(t,e){if(await b()){location.hash="#/";return}let i=e.get("next")||"/";t.innerHTML=`
+  <div class="form"><h1>Welcome back</h1><p class="sub">Sign in to WatchInd.</p><div id="aErr"></div>
+    <div class="field"><label>Email</label><input id="lE" type="email" placeholder="you@example.com" autocomplete="email"></div>
+    <div class="field"><label>Password</label><input id="lP" type="password" placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" autocomplete="current-password"></div>
+    <button class="btn primary" id="lGo" style="width:100%">Sign in</button>
+    <p style="margin-top:16px;font-size:14px;text-align:center;color:var(--mut)"><a class="link" href="#/forgot">Forgot password?</a> \xB7 New here? <a class="link" href="#/signup">Create account</a></p>
+  </div>`;let a=async()=>{W(t,""),s("#lGo",t).disabled=!0;let{error:n}=await d.auth.signInWithPassword({email:s("#lE",t).value.trim(),password:s("#lP",t).value});if(s("#lGo",t).disabled=!1,n)return W(t,n.message);f("Signed in \u2014 welcome back!"),location.hash="#"+i};s("#lGo",t).onclick=a,s("#lP",t).addEventListener("keydown",n=>{n.key==="Enter"&&a()})}async function Ye(t){if(await b()){location.hash="#/";return}t.innerHTML=`
+  <div class="form"><h1>Join WatchInd</h1><p class="sub">Free forever. Watch, create, share.</p><div id="aErr"></div>
+    <div class="field"><label>Display name</label><input id="sN" placeholder="Your name" maxlength="40"></div>
+    <div class="field"><label>Username (unique)</label><input id="sU" placeholder="e.g. kishan_v" maxlength="30"></div>
+    <div class="field"><label>Email</label><input id="sE" type="email" placeholder="you@example.com" autocomplete="email"></div>
+    <div class="field"><label>Password (min 6 characters)</label><input id="sP" type="password" placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" autocomplete="new-password"></div>
+    <button class="btn primary" id="sGo" style="width:100%">Create account</button>
+    <p style="margin-top:16px;font-size:14px;text-align:center;color:var(--mut)">Already have an account? <a class="link" href="#/login">Sign in</a></p>
+  </div>`,s("#sGo",t).onclick=async()=>{W(t,"");let e=s("#sN",t).value.trim(),i=s("#sU",t).value.trim().toLowerCase().replace(/[^a-z0-9_.]/g,""),a=s("#sE",t).value.trim(),n=s("#sP",t).value;if(e.length<2)return W(t,"Please enter your name.");if(i.length<3)return W(t,"Username needs at least 3 characters.");if(n.length<6)return W(t,"Password needs at least 6 characters.");s("#sGo",t).disabled=!0;let{data:l,error:o}=await d.auth.signUp({email:a,password:n,options:{data:{display_name:e}}});if(o)return s("#sGo",t).disabled=!1,W(t,o.message);l.user?(await d.from("profiles").upsert({id:l.user.id,username:i,display_name:e},{onConflict:"id"}),f("Account created \u2014 welcome to WatchInd!"),location.hash="#/"):(s("#sGo",t).disabled=!1,W(t,"Check your email to confirm your account, then sign in."))}}async function Ke(t){t.innerHTML=`
+  <div class="form"><h1>Reset password</h1><p class="sub">We will email you a reset link.</p><div id="aErr"></div><div id="aOk"></div>
+    <div class="field"><label>Email</label><input id="fE" type="email" placeholder="you@example.com"></div>
+    <button class="btn primary" id="fGo" style="width:100%">Send reset link</button>
+    <p style="margin-top:16px;font-size:14px;text-align:center"><a class="link" href="#/login">Back to sign in</a></p>
+  </div>`,s("#fGo",t).onclick=async()=>{W(t,"");let e=s("#fE",t).value.trim();if(!e)return W(t,"Enter your email address.");let i=`${location.origin}${location.pathname}#/login`,{error:a}=await d.auth.resetPasswordForEmail(e,{redirectTo:i});if(a)return W(t,a.message);s("#aOk",t).innerHTML='<div class="okmsg">Reset link sent \u2014 check your inbox.</div>'}}async function Xe(t){let e=await b();if(!e){location.hash="#/login?next="+encodeURIComponent("/profile");return}let{data:i}=await d.from("profiles").select("*").eq("id",e.id).maybeSingle(),a=await I(e.id);t.innerHTML=`
+  <div class="pagehead"><h1>Your profile</h1><div class="sp"><button class="btn sm danger" id="pOut">Sign out</button></div></div>
+  <div class="grid2">
+    <div class="panel"><h3>Profile</h3><div id="pErr"></div>
+      <div class="row" style="margin-bottom:16px;align-items:center">
+        <span id="pAv">${L(i?.avatar_url,i?.display_name||e.email,"lg")}</span>
+        <div><input type="file" id="pAvF" accept="image/*" style="display:none"><button class="btn sm" id="pAvB">Change photo</button>
+        <div style="font-size:12px;color:var(--dim);margin-top:6px">${v(e.email)}</div></div>
+      </div>
+      <div class="field"><label>Display name</label><input id="pN" value="${v(i?.display_name||"")}" maxlength="40"></div>
+      <div class="field"><label>Username</label><input id="pU" value="${v(i?.username||"")}" maxlength="30"></div>
+      <div class="field"><label>Bio</label><textarea id="pB" maxlength="300" placeholder="Tell people about yourself\u2026">${v(i?.bio||"")}</textarea></div>
+      <button class="btn primary" id="pSave">Save changes</button>
+    </div>
+    <div class="panel"><h3>Your channel</h3>
+      ${a?`<div class="row" style="margin-bottom:12px">${L(a.avatar_url,a.name)}<div><b>${v(a.name)}</b><div style="color:var(--mut);font-size:13px">@${v(a.handle)}</div></div></div>
+        <div class="row"><a class="btn sm" href="#/channel/${v(a.handle)}">View channel</a><a class="btn sm primary" href="#/studio">Creator Studio</a></div>`:'<p style="color:var(--mut);margin-bottom:14px">You do not have a channel yet. Create one to upload videos.</p><a class="btn primary sm" href="#/channel/new">Create channel</a>'}
+      <h3 style="margin-top:26px">Account</h3>
+      <div class="kv"><span>Member since</span><b>${new Date(i?.created_at||Date.now()).toLocaleDateString("en-IN")}</b></div>
+      <div class="kv"><span>Theme</span><button class="btn sm ghost" id="pTheme">Toggle light / dark</button></div>
+    </div>
+  </div>`,s("#pAvB",t).onclick=()=>s("#pAvF",t).click(),s("#pAvF",t).onchange=async n=>{let l=n.target.files[0];if(l){f("Uploading photo\u2026");try{let o=await O(A.avatars,l,()=>{});await d.from("profiles").update({avatar_url:Y(A.avatars,o)}).eq("id",e.id),s("#pAv",t).innerHTML=L(Y(A.avatars,o),i?.display_name,"lg"),f("Photo updated")}catch{f("Photo upload failed")}}},s("#pSave",t).onclick=async()=>{let{error:n}=await d.from("profiles").update({display_name:s("#pN",t).value.trim(),username:s("#pU",t).value.trim().toLowerCase().replace(/[^a-z0-9_.]/g,"")||null,bio:s("#pB",t).value.trim()}).eq("id",e.id);n?s("#pErr",t).innerHTML=`<div class="err">${v(n.code==="23505"?"That username is taken.":"Could not save. Try again.")}</div>`:f("Profile saved")},s("#pTheme",t).onclick=()=>window.__toggleTheme(),s("#pOut",t).onclick=async()=>{await d.auth.signOut(),location.hash="#/",location.reload()}}z();U();B();async function Je(t){let e=await P();if(!e)return;let i=await I(e.id);if(!i){t.innerHTML=`<div class="upl">${_("\u{1F4FA}","Create a channel first","You need a channel before you can upload videos.",'<a class="btn primary" href="#/channel/new">Create channel</a>')}</div>`;return}let a=await Q().catch(()=>[]);t.innerHTML=`
+  <div class="upl">
+    <div class="pagehead"><h1>Upload video</h1></div>
+    <div id="uStep1">
+      <label class="drop" id="uDrop">
+        <div style="font-size:44px;margin-bottom:10px">\u2934</div>
+        <div style="font-weight:700;font-size:17px">Select video file</div>
+        <div style="color:var(--mut);font-size:13.5px;margin-top:6px">MP4 / WebM recommended \xB7 up to ~500MB on free tier</div>
+        <input type="file" id="uFile" accept="video/*" style="display:none">
+      </label>
+    </div>
+    <div id="uStep2" style="display:none">
+      <div class="steps"><div class="step on" id="stU">1 \xB7 Uploading</div><div class="step" id="stP">2 \xB7 Processing</div><div class="step" id="stR">3 \xB7 Ready</div></div>
+      <div class="prog"><i id="uProg"></i></div>
+      <div style="font-size:13px;color:var(--mut)" id="uPct">0%</div>
+      <div class="panel" style="margin-top:18px"><h3>Video details</h3>
+        <div class="field"><label>Title *</label><input id="uTitle" maxlength="120" placeholder="A title that makes people click"></div>
+        <div class="field"><label>Description</label><textarea id="uDesc" maxlength="2000" placeholder="Tell viewers about your video\u2026"></textarea></div>
+        <div class="grid2" style="gap:14px">
+          <div class="field"><label>Category</label><select id="uCat">${a.map(m=>`<option value="${m.id}">${v(m.name)}</option>`).join("")}</select></div>
+          <div class="field"><label>Tags (comma separated)</label><input id="uTags" placeholder="tech, review, hindi" maxlength="200"></div>
+        </div>
+        <div class="grid2" style="gap:14px">
+          <div class="field"><label>Visibility</label><select id="uVis"><option value="public">Public \u2014 everyone can watch</option><option value="unlisted">Unlisted \u2014 only people with the link</option><option value="private">Private \u2014 only you</option></select></div>
+          <div class="field"><label>Thumbnail</label><input type="file" id="uThumb" accept="image/*"><div style="font-size:12px;color:var(--dim);margin-top:6px">16:9 JPG/PNG recommended</div></div>
+        </div>
+        <label class="check"><input type="checkbox" id="uAge"> This video is age-restricted (18+)</label>
+        <div class="row" style="margin-top:18px"><button class="btn ghost" id="uCancel">Cancel</button><span style="flex:1"></span><button class="btn primary" id="uPub" disabled>Publish</button></div>
+      </div>
+    </div>
+  </div>`;let n=s("#uDrop",t),l=s("#uFile",t);n.onclick=()=>l.click(),n.ondragover=m=>{m.preventDefault(),n.classList.add("over")},n.ondragleave=()=>n.classList.remove("over"),n.ondrop=m=>{m.preventDefault(),n.classList.remove("over"),m.dataTransfer.files[0]&&u(m.dataTransfer.files[0])},l.onchange=()=>l.files[0]&&u(l.files[0]);let o=null,r=0,c=!1;async function u(m){if(!m.type.startsWith("video/"))return f("Please choose a video file");s("#uStep1",t).style.display="none",s("#uStep2",t).style.display="block",r=await Ge(m),r>0&&r<=62&&f("Detected a Short (under 62s) \u2014 it will appear in the Shorts shelf");try{o=await O(A.videos,m,h=>{s("#uProg",t).style.width=h*100+"%",s("#uPct",t).textContent=Math.round(h*100)+"% uploading\u2026"}),s("#stU",t).className="step done",s("#stP",t).className="step on",s("#uPct",t).textContent="Processing\u2026",await new Promise(h=>setTimeout(h,1200)),s("#stP",t).className="step done",s("#stR",t).className="step on",s("#uPct",t).textContent="Ready to publish",s("#uProg",t).style.width="100%",s("#uPub",t).disabled=!1,c=!0,s("#uTitle",t).value||(s("#uTitle",t).value=m.name.replace(/\.[^.]+$/,"").replace(/[_-]+/g," ").slice(0,120))}catch(h){s("#uPct",t).textContent="Upload failed: "+h.message,f("Upload failed \u2014 try again"),s("#uStep1",t).style.display="block",s("#uStep2",t).style.display="none"}}s("#uCancel",t).onclick=async()=>{let{confirmDlg:m}=await Promise.resolve().then(()=>(U(),dt));if(await m("Discard upload?","Your uploaded file will not be published.")){try{Ie()}catch{}location.hash="#/studio"}},s("#uPub",t).onclick=async()=>{let m=s("#uTitle",t).value.trim();if(!m)return f("Add a title first");if(!c||!o)return f("Wait for the upload to finish");s("#uPub",t).disabled=!0,s("#uPub",t).textContent="Publishing\u2026";try{let h=null,g=s("#uThumb",t).files[0];if(g){f("Uploading thumbnail\u2026");let q=await O(A.thumbnails,g,()=>{});h=Y(A.thumbnails,q)}let x=s("#uTags",t).value.split(",").map(q=>q.trim().toLowerCase().replace(/[^a-z0-9 ]/g,"")).filter(Boolean).slice(0,10),{data:H,error:M}=await d.from("videos").insert({channel_id:i.id,title:m,description:s("#uDesc",t).value.trim(),video_url:Y(A.videos,o),thumbnail_url:h,duration_secs:r,visibility:s("#uVis",t).value,category_id:s("#uCat",t).value||null,tags:x,status:"ready",age_restricted:s("#uAge",t).checked}).select("id").single();if(M)throw M;f("Published!"),location.hash="#/watch/"+H.id}catch(h){s("#uPub",t).disabled=!1,s("#uPub",t).textContent="Publish",f("Publish failed: "+(h.message||"try again"))}}}z();U();B();async function Z(t,e){let i=await P();if(!i)return;let a=await I(i.id);if(!a){t.innerHTML=`<div class="upl">${_("\u{1F4FA}","No channel yet","Create a channel to open Creator Studio.",'<a class="btn primary" href="#/channel/new">Create channel</a>')}</div>`;return}let n=e.get("tab")||"overview";t.innerHTML=`
+  <div class="pagehead"><h1>Creator Studio</h1><div class="sp"><a class="btn primary sm" href="#/upload">\u2934 Upload video</a><a class="btn sm ghost" href="#/channel/${v(a.handle)}">View channel</a></div></div>
+  <div class="tabs" id="stTabs">
+    ${["overview","videos","analytics","comments","subscribers","playlists","customize","settings"].map(o=>`<button class="tab ${n===o?"on":""}" data-t="${o}">${o[0].toUpperCase()+o.slice(1)}</button>`).join("")}
+  </div>
+  <div id="stBody"><div class="skel skel-line"></div><div class="skel skel-line"></div></div>`,w("#stTabs .tab",t).forEach(o=>o.onclick=()=>{location.hash="#/studio?tab="+o.dataset.t});let l=s("#stBody",t);if(n==="overview"){let o=await Ct(a.id).catch(()=>null);if(!o){l.innerHTML=_("\u26A0\uFE0F","Could not load stats","Try again.");return}l.innerHTML=`
+      <div class="stat-grid">
+        <div class="stat"><div class="n">${y(o.totalViews)}</div><div class="l">Total views</div></div>
+        <div class="stat"><div class="n">${D(o.watchSeconds)}</div><div class="l">Watch time</div></div>
+        <div class="stat"><div class="n">${y(o.subs)}</div><div class="l">Subscribers (+${y(o.subsGained)} / 28d)</div></div>
+        <div class="stat"><div class="n">${y(o.likeCount)}</div><div class="l">Likes</div></div>
+        <div class="stat"><div class="n">${y(o.commentCount)}</div><div class="l">Comments</div></div>
+        <div class="stat"><div class="n">${o.videoCount}</div><div class="l">Videos</div></div>
+      </div>
+      <div class="panel"><h3>Top videos</h3>
+        ${o.topVideos.length?`<div class="tablewrap"><table class="tbl"><tr><th>Video</th><th>Views</th><th>Published</th></tr>
+        ${o.topVideos.map(r=>`<tr><td><a class="link" href="#/watch/${r.id}">${v(r.title.slice(0,60))}</a></td><td>${y(r.view_count)}</td><td>${V(r.created_at)}</td></tr>`).join("")}</table></div>`:'<p style="color:var(--mut)">Upload your first video to see analytics.</p>'}
+      </div>`}else if(n==="videos"){let o=await it(a.id,{includePrivate:!0,limit:100});l.innerHTML=o.length?`<div class="tablewrap"><table class="tbl"><tr><th></th><th>Title</th><th>Visibility</th><th>Views</th><th>Duration</th><th>Date</th><th></th></tr>
+      ${o.map(r=>`<tr>
+        <td><a href="#/watch/${r.id}"><img class="tt" src="${v(r.thumbnail_url||"")}" loading="lazy" onerror="this.style.visibility='hidden'"></a></td>
+        <td><a class="link" href="#/watch/${r.id}">${v(r.title.slice(0,70))}</a></td>
+        <td><span class="badge-vis" style="position:static">${v(r.visibility)}</span></td>
+        <td>${y(r.view_count)}</td><td>${D(r.duration_secs)}</td><td>${G(r.created_at)}</td>
+        <td><div class="row"><button class="btn sm ghost" data-vis="${r.id}">\u{1F441}</button><button class="btn sm danger" data-del="${r.id}">\u{1F5D1}</button></div></td>
+      </tr>`).join("")}</table></div>`:_("\u{1F3AC}","No videos yet","Upload your first video to get started.",'<a class="btn primary" href="#/upload">Upload video</a>'),w("[data-del]",l).forEach(r=>r.onclick=async()=>{await S("Delete video?","This permanently deletes the video and its comments.")&&(await d.from("videos").delete().eq("id",r.dataset.del).eq("channel_id",a.id),f("Video deleted"),Z(t,e))}),w("[data-vis]",l).forEach(r=>r.onclick=async()=>{let c=o.find(h=>h.id===r.dataset.vis),u=["public","unlisted","private"],m=u[(u.indexOf(c.visibility)+1)%3];await d.from("videos").update({visibility:m}).eq("id",c.id).eq("channel_id",a.id),f("Visibility \u2192 "+m),Z(t,e)})}else if(n==="analytics"){let o=await Ct(a.id).catch(()=>null);if(!o){l.innerHTML=_("\u26A0\uFE0F","Could not load","Try again.");return}let r=o.totalViews?Math.round(o.watchSeconds/o.totalViews):0;l.innerHTML=`
+      <div class="stat-grid">
+        <div class="stat"><div class="n">${y(o.totalViews)}</div><div class="l">Views (all time)</div></div>
+        <div class="stat"><div class="n">${D(o.watchSeconds)}</div><div class="l">Total watch time</div></div>
+        <div class="stat"><div class="n">${D(r)}</div><div class="l">Avg. watch / view</div></div>
+        <div class="stat"><div class="n">${y(o.likeCount)}</div><div class="l">Likes received</div></div>
+        <div class="stat"><div class="n">${y(o.commentCount)}</div><div class="l">Comments received</div></div>
+        <div class="stat"><div class="n">+${y(o.subsGained)}</div><div class="l">New subscribers (28d)</div></div>
+      </div>
+      <div class="panel"><h3>Video performance</h3>
+        <div class="tablewrap"><table class="tbl"><tr><th>Video</th><th>Views</th><th>Published</th></tr>
+        ${o.topVideos.map(c=>`<tr><td><a class="link" href="#/watch/${c.id}">${v(c.title.slice(0,60))}</a></td><td><b>${y(c.view_count)}</b></td><td>${V(c.created_at)}</td></tr>`).join("")||'<tr><td colspan="3" style="color:var(--mut)">No data yet.</td></tr>'}</table></div>
+        <p style="color:var(--dim);font-size:12.5px;margin-top:12px">Granular per-view data (watch_seconds) is stored in video_views for every playback session.</p>
+      </div>`}else if(n==="comments"){let o=await ue(a.id).catch(()=>[]);l.innerHTML=o.length?`<div class="tablewrap"><table class="tbl"><tr><th>Comment</th><th>By</th><th>On video</th><th>Date</th><th></th></tr>
+      ${o.map(r=>`<tr><td style="max-width:340px">${v(r.text.slice(0,140))}</td><td>${v(r.profiles?.display_name||"User")}</td><td><a class="link" href="#/watch/${r.video_id}">${v((r.videos?.title||"").slice(0,40))}</a></td><td>${V(r.created_at)}</td>
+      <td><button class="btn sm danger" data-c="${r.id}">Delete</button></td></tr>`).join("")}</table></div>`:_("\u{1F4AC}","No comments yet","Comments on your videos will appear here for moderation."),w("[data-c]",l).forEach(r=>r.onclick=async()=>{await S("Delete this comment?","It will be removed from the video.")&&(await d.from("comments").delete().eq("id",r.dataset.c),f("Comment deleted"),Z(t,e))})}else if(n==="subscribers"){let[o,r]=await Promise.all([ce(a.id),at(a.id)]);l.innerHTML=`<div class="panel"><h3>${y(r)} subscribers</h3>
+      ${o.length?`<div class="tablewrap"><table class="tbl"><tr><th></th><th>Name</th><th>Subscribed</th></tr>
+      ${o.map(c=>`<tr><td>${L(c.profiles?.avatar_url,c.profiles?.display_name)}</td><td><b>${v(c.profiles?.display_name||"User")}</b></td><td>${V(c.created_at)}</td></tr>`).join("")}</table></div>`:'<p style="color:var(--mut)">No subscribers yet \u2014 share your channel to grow.</p>'}</div>`}else if(n==="playlists"){let{getMyPlaylists:o,createPlaylist:r,deletePlaylist:c}=await Promise.resolve().then(()=>(B(),ft)),{promptDlg:u}=await Promise.resolve().then(()=>(U(),dt)),m=await o();l.innerHTML=`<div class="pagehead"><h3 style="font-size:18px">Channel playlists</h3><div class="sp"><button class="btn primary sm" id="plNew">+ New</button></div></div>
+      <div id="plL">${m.length?`<div class="tablewrap"><table class="tbl"><tr><th>Title</th><th>Videos</th><th>Visibility</th><th></th></tr>
+      ${m.map(h=>`<tr><td><a class="link" href="#/playlist/${h.id}">${v(h.title)}</a></td><td>${h.playlist_videos?.[0]?.count??0}</td><td>${v(h.visibility)}</td><td><button class="btn sm danger" data-p="${h.id}">Delete</button></td></tr>`).join("")}</table></div>`:'<p style="color:var(--mut)">No playlists yet.</p>'}</div>`,s("#plNew",l).onclick=async()=>{let h=await u("New playlist","Title","","My playlist");h&&(await r(h),f("Playlist created"),Z(t,e))},w("[data-p]",l).forEach(h=>h.onclick=async()=>{await S("Delete playlist?","Videos stay on the platform.")&&(await c(h.dataset.p),Z(t,e))})}else if(n==="customize"){l.innerHTML=`<div class="panel" style="max-width:640px"><h3>Channel customization</h3><div id="cuErr"></div>
+      <div class="field"><label>Channel banner</label><input type="file" id="cuBan" accept="image/*"><div style="font-size:12px;color:var(--dim);margin-top:6px">Wide image works best (2560\xD71440).</div></div>
+      <div class="field"><label>Channel avatar</label><input type="file" id="cuAv" accept="image/*"></div>
+      <div class="field"><label>Channel name</label><input id="cuName" value="${v(a.name)}" maxlength="60"></div>
+      <div class="field"><label>Description</label><textarea id="cuDesc" maxlength="1000">${v(a.description||"")}</textarea></div>
+      <button class="btn primary" id="cuSave">Save changes</button></div>`;async function o(r,c){if(!r)return null;let u=await O(c,r,()=>{});return Y(c,u)}s("#cuSave",l).onclick=async()=>{s("#cuSave",l).disabled=!0,f("Saving\u2026");try{let r={name:s("#cuName",l).value.trim(),description:s("#cuDesc",l).value.trim()},c=await o(s("#cuBan",l).files[0],A.avatars),u=await o(s("#cuAv",l).files[0],A.avatars);c&&(r.banner_url=c),u&&(r.avatar_url=u);let{error:m}=await d.from("channels").update(r).eq("id",a.id).eq("owner_id",i.id);if(m)throw m;f("Channel updated"),location.hash="#/channel/"+a.handle}catch{s("#cuSave",l).disabled=!1,f("Save failed \u2014 try again")}}}else n==="settings"&&(l.innerHTML=`<div class="panel" style="max-width:640px"><h3>Channel settings</h3>
+      <div class="kv"><span>Handle</span><b>@${v(a.handle)}</b></div>
+      <div class="kv"><span>Channel ID</span><b style="font-size:12px">${v(a.id)}</b></div>
+      <div class="kv"><span>Created</span><b>${G(a.created_at)}</b></div>
+      <h3 style="margin-top:22px;color:#f87171">Danger zone</h3>
+      <p style="color:var(--mut);font-size:14px;margin-bottom:12px">Deleting your channel permanently removes it and all its videos, comments and data.</p>
+      <button class="btn danger" id="delCh">Delete channel</button></div>`,s("#delCh",l).onclick=async()=>{await S("Delete your channel?",`Type DELETE is not needed \u2014 press Delete to confirm. This removes "${a.name}" and ALL its videos forever.`,"Delete forever")&&(await d.from("channels").delete().eq("id",a.id).eq("owner_id",i.id),f("Channel deleted"),location.hash="#/")})}z();U();B();async function X(t,e){if(!await P())return;if(!await pt()){t.innerHTML=_("\u{1F512}","Admin only","This area is restricted to platform administrators.");return}let a=e.get("tab")||"dashboard";t.innerHTML=`
+  <div class="pagehead"><h1>\u{1F6E1} Admin Panel</h1></div>
+  <div class="tabs" id="adTabs">
+    ${["dashboard","users","videos","comments","reports","categories"].map(l=>`<button class="tab ${a===l?"on":""}" data-t="${l}">${l[0].toUpperCase()+l.slice(1)}</button>`).join("")}
+  </div>
+  <div id="adBody"><div class="skel skel-line"></div><div class="skel skel-line"></div></div>`,w("#adTabs .tab",t).forEach(l=>l.onclick=()=>location.hash="#/admin?tab="+l.dataset.t);let n=s("#adBody",t);if(a==="dashboard"){let l=await _e();n.innerHTML=`<div class="stat-grid">
+      <div class="stat"><div class="n">${y(l.users)}</div><div class="l">Users</div></div>
+      <div class="stat"><div class="n">${y(l.videos)}</div><div class="l">Videos</div></div>
+      <div class="stat"><div class="n">${y(l.comments)}</div><div class="l">Comments</div></div>
+      <div class="stat"><div class="n">${y(l.openReports)}</div><div class="l">Open reports</div></div></div>
+      <div class="panel"><h3>Quick actions</h3><div class="row" style="flex-wrap:wrap">
+      <a class="btn sm" href="#/admin?tab=reports">Review reports (${l.openReports})</a>
+      <a class="btn sm" href="#/admin?tab=videos">Moderate videos</a>
+      <a class="btn sm" href="#/admin?tab=categories">Manage categories</a></div></div>`}else if(a==="users"){let l=await he(50);n.innerHTML=`<div class="tablewrap"><table class="tbl"><tr><th></th><th>User</th><th>Username</th><th>Joined</th><th>Admin</th></tr>
+      ${l.map(o=>`<tr><td>${L(o.avatar_url,o.display_name)}</td><td><b>${v(o.display_name||"User")}</b></td><td>@${v(o.username||"\u2014")}</td><td>${G(o.created_at)}</td>
+      <td><button class="btn sm ${o.is_admin?"danger":"ghost"}" data-adm="${o.id}" data-v="${o.is_admin?0:1}">${o.is_admin?"Remove admin":"Make admin"}</button></td></tr>`).join("")}</table></div>`,w("[data-adm]",n).forEach(o=>o.onclick=async()=>{let r=o.dataset.v==="1";await S(r?"Grant admin?":"Revoke admin?",`This will ${r?"give":"remove"} administrator rights.`)&&(await we(o.dataset.adm,r),f("Updated"),X(t,e))})}else if(a==="videos"){let l=await me(50);n.innerHTML=`<div class="tablewrap"><table class="tbl"><tr><th>Title</th><th>Channel</th><th>Visibility</th><th>Status</th><th>Views</th><th></th></tr>
+      ${l.map(o=>`<tr><td><a class="link" href="#/watch/${o.id}">${v(o.title.slice(0,60))}</a></td><td>${v(o.channels?.name||"\u2014")}</td><td>${v(o.visibility)}</td><td>${v(o.status)}</td><td>${y(o.view_count)}</td>
+      <td><button class="btn sm danger" data-v="${o.id}">Remove</button></td></tr>`).join("")}</table></div>`,w("[data-v]",n).forEach(o=>o.onclick=async()=>{await S("Remove video?","This permanently deletes the video for everyone.")&&(await ye(o.dataset.v),f("Video removed"),X(t,e))})}else if(a==="comments"){let l=await pe(50);n.innerHTML=`<div class="tablewrap"><table class="tbl"><tr><th>Comment</th><th>By</th><th>On</th><th></th></tr>
+      ${l.map(o=>`<tr><td style="max-width:380px">${v(o.text.slice(0,160))}</td><td>${v(o.profiles?.display_name||"User")}</td><td>${v((o.videos?.title||"").slice(0,40))}</td>
+      <td><button class="btn sm danger" data-c="${o.id}">Remove</button></td></tr>`).join("")}</table></div>`,w("[data-c]",n).forEach(o=>o.onclick=async()=>{await S("Remove comment?","This permanently deletes the comment.")&&(await ge(o.dataset.c),f("Comment removed"),X(t,e))})}else if(a==="reports"){let l=e.get("f")||"open",o=await fe(l);n.innerHTML=`
+      <div class="row" style="margin-bottom:14px">
+        ${["open","reviewed","dismissed","actioned","all"].map(r=>`<button class="chip ${l===r?"on":""}" data-f="${r}">${r}</button>`).join("")}
+      </div>
+      ${o.length?`<div class="tablewrap"><table class="tbl"><tr><th>Type</th><th>Reason</th><th>Reporter</th><th>Status</th><th>Date</th><th></th></tr>
+      ${o.map(r=>`<tr><td><span class="badge-vis" style="position:static">${v(r.target_type)}</span></td><td>${v(r.reason)}</td><td>${v(r.reporter_name||"\u2014")}</td><td>${v(r.status)}</td><td>${V(r.created_at)}</td>
+      <td><div class="row">${r.target_type==="video"?`<a class="btn sm ghost" href="#/watch/${r.target_id}">View</a>`:""}<button class="btn sm" data-r="reviewed" data-id="${r.id}">Reviewed</button><button class="btn sm" data-r="dismissed" data-id="${r.id}">Dismiss</button><button class="btn sm danger" data-r="actioned" data-id="${r.id}">Actioned</button></div></td></tr>`).join("")}</table></div>`:_("\u2705","No reports","The moderation queue is clear.")}`,w("[data-f]",n).forEach(r=>r.onclick=()=>location.hash="#/admin?tab=reports&f="+r.dataset.f),w("[data-r]",n).forEach(r=>r.onclick=async()=>{await be(r.dataset.id,r.dataset.r),f("Report \u2192 "+r.dataset.r),X(t,e)})}else if(a==="categories"){let l=await Q();n.innerHTML=`<div class="pagehead"><h3 style="font-size:18px">Categories</h3><div class="sp"><button class="btn primary sm" id="catNew">+ Add</button></div></div>
+      <div class="tablewrap"><table class="tbl"><tr><th>Name</th><th>Slug</th><th></th></tr>
+      ${l.map(o=>`<tr><td><b>${v(o.name)}</b></td><td>${v(o.slug)}</td><td><button class="btn sm danger" data-c="${o.id}">Delete</button></td></tr>`).join("")}</table></div>`,s("#catNew",n).onclick=async()=>{let o=await Ht("New category","Category name","","e.g. Travel");if(!o)return;let r=o.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""),{error:c}=await d.from("categories").insert({name:o,slug:r});c?f("Could not add (name/slug may exist)"):(f("Category added"),X(t,e))},w("[data-c]",n).forEach(o=>o.onclick=async()=>{await S("Delete category?","Videos in it become uncategorized.")&&(await d.from("videos").update({category_id:null}).eq("category_id",o.dataset.c),await d.from("categories").delete().eq("id",o.dataset.c),f("Deleted"),X(t,e))})}}async function Qe(t){if(!await P())return;t.innerHTML='<div class="pagehead"><h1>Notifications</h1><div class="sp"><button class="btn sm ghost" id="nAll">Mark all read</button></div></div><div id="nL"><div class="skel skel-line"></div><div class="skel skel-line"></div></div>';async function i(){let a=await oe(),n={new_subscriber:"\u{1F465}",new_video:"\u{1F3AC}",comment:"\u{1F4AC}",reply:"\u21A9\uFE0F",like:"\u{1F44D}"};s("#nL",t).innerHTML=a.length?a.map(l=>`
+      <div class="nitem ${l.is_read?"":"unread"}" data-n="${l.id}" data-ref="${l.ref_id||""}" data-type="${l.type}">
+        <div style="font-size:26px">${n[l.type]||"\u{1F514}"}</div>
+        <div><div class="t">${v(l.title)}</div><div class="b">${v(l.body||"")}</div><div class="d">${V(l.created_at)}</div></div>
+      </div>`).join(""):_("\u{1F514}","No notifications","Likes, comments, new subscribers and new videos from channels you follow will appear here."),w("#nL .nitem",t).forEach(l=>l.onclick=async()=>{await re(l.dataset.n),window.__notifRefresh?.();let{ref_id:o,type:r}=l.dataset;r==="new_video"||r==="comment"||r==="reply"||r==="like"?location.hash=o?"#/watch/"+o:"#/notifications":r==="new_subscriber"?location.hash="#/studio?tab=subscribers":i()})}s("#nAll",t).onclick=async()=>{await de(),window.__notifRefresh?.(),i()},i()}var $e=[];function Ze(t){typeof t=="function"&&$e.push(t)}function vi(){$e.forEach(t=>{try{t()}catch{}}),$e=[]}var hi=[{id:"home",label:"Home",href:"#/",icon:'<path d="M3 11l9-8 9 8v9a2 2 0 01-2 2h-4v-7h-6v7H5a2 2 0 01-2-2z"/>'},{id:"shorts",label:"Shorts",href:"#/shorts",icon:'<rect x="7" y="2" width="10" height="20" rx="3"/><path d="M10 8l5 4-5 4z" fill="currentColor" stroke="none"/>'},{id:"trending",label:"Trending",href:"#/trending",icon:'<path d="M13 2L4 14h6l-1 8 9-12h-6z"/>'},{id:"subs",label:"Subscriptions",href:"#/subscriptions",icon:'<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/>'},{id:"history",label:"History",href:"#/history",icon:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>'},{id:"later",label:"Watch Later",href:"#/watch-later",icon:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>'},{id:"playlists",label:"Playlists",href:"#/playlists",icon:'<path d="M4 6h12M4 12h12M4 18h7"/><circle cx="18" cy="17" r="3"/>'}];function nt(t){return`<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${t}</svg>`}function k(t){w("#sideNav .snav").forEach(e=>e.classList.toggle("on",e.dataset.id===t)),w("#bottomNav a").forEach(e=>e.classList.toggle("on",e.dataset.id===t))}function mi(){s("#sideNav").innerHTML=hi.map(t=>`<a class="snav" data-id="${t.id}" href="${t.href}">${nt(t.icon)}<span>${t.label}</span></a>`).join("")+`<div class="sep" style="height:1px;background:var(--line);margin:10px 6px"></div>
+     <a class="snav" data-id="studio" href="#/studio">${nt('<circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 01-.1 1.2l2 1.6-2 3.4-2.4-1a7 7 0 01-2 1.2L14 20h-4l-.5-2.6a7 7 0 01-2-1.2l-2.4 1-2-3.4 2-1.6A7 7 0 015 12a7 7 0 01.1-1.2l-2-1.6 2-3.4 2.4 1a7 7 0 012-1.2L10 4h4l.5 2.6a7 7 0 012 1.2l2.4-1 2 3.4-2 1.6c.06.4.1.8.1 1.2z"/>')}<span>Creator Studio</span></a>`,s("#bottomNav").innerHTML=`
+    <a data-id="home" href="#/">${nt('<path d="M3 11l9-8 9 8v9a2 2 0 01-2 2h-4v-7h-6v7H5a2 2 0 01-2-2z"/>')}<span>Home</span></a>
+    <a data-id="shorts" href="#/shorts">${nt('<rect x="7" y="2" width="10" height="20" rx="3"/><path d="M10 8l5 4-5 4z" fill="currentColor" stroke="none"/>')}<span>Shorts</span></a>
+    <a data-id="upload" href="#/upload" class="fab"><span>+</span></a>
+    <a data-id="subs" href="#/subscriptions">${nt('<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/>')}<span>Subs</span></a>
+    <a data-id="profile" href="#/profile">${nt('<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/>')}<span>You</span></a>`}async function ti(){let t=await b(),e=s("#topActions");if(t){let i=await yt().catch(()=>null),a=await pt().catch(()=>!1);e.innerHTML=`
+      <button class="icon-btn themebtn" id="thT" title="Toggle theme">\u25D0</button>
+      <a class="icon-btn bell" href="#/notifications" title="Notifications" id="bellB">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>
+        <span class="dot" id="bellN" style="display:none"></span></a>
+      ${a?'<a class="icon-btn" href="#/admin" title="Admin">\u{1F6E1}</a>':""}
+      <div class="dd"><button class="icon-btn" id="avB" style="padding:0">${L(i?.avatar_url,i?.display_name||t.email)}</button>
+        <div class="ddmenu" id="avM" style="display:none">
+          <a href="#/profile">\u{1F464} Your profile</a>
+          <a href="#/studio">\u{1F39B} Creator Studio</a>
+          <a href="#/playlists">\u25A4 Playlists</a>
+          <div class="sep"></div>
+          <button id="ddOut">\u{1F6AA} Sign out</button>
+        </div></div>`,s("#thT",e).onclick=()=>window.__toggleTheme(),s("#avB",e).onclick=n=>{n.stopPropagation();let l=s("#avM",e);l.style.display=l.style.display==="none"?"block":"none"},document.addEventListener("click",()=>{let n=s("#avM");n&&(n.style.display="none")}),s("#ddOut",e).onclick=async()=>{await d.auth.signOut(),rt(null),ve(),location.hash="#/",location.reload()},ke()}else e.innerHTML=`
+      <button class="icon-btn themebtn" id="thT" title="Toggle theme">\u25D0</button>
+      <a class="btn ghost sm hide-sm" href="#/login">Sign in</a><a class="btn primary sm" href="#/signup">Join free</a>`,s("#thT",e).onclick=()=>window.__toggleTheme()}async function ke(){try{let t=await le(),e=s("#bellN");e&&(e.style.display=t?"flex":"none",e.textContent=t>99?"99+":t)}catch{}}window.__notifRefresh=ke;function pi(){let t=location.hash.slice(1)||"/",e=t.indexOf("?");return{path:(e===-1?t:t.slice(0,e))||"/",query:new URLSearchParams(e===-1?"":t.slice(e+1))}}async function ei(){vi();let t=s("#app"),{path:e,query:i}=pi(),a=s("#shWrap");a&&a.remove(),window.scrollTo(0,0),s("#sidebar").classList.remove("open");try{e==="/"||e===""?(k("home"),await He(t)):e==="/shorts"?(k("shorts"),Ze(await Ve(t,i))):e==="/trending"?(k("trending"),await Pe(t)):e==="/latest"?(k("home"),await Ee(t)):e==="/subscriptions"?(k("subs"),await qe(t)):e==="/history"?(k("history"),await De(t)):e==="/watch-later"?(k("later"),await Ne(t)):e==="/playlists"?(k("playlists"),await Ue(t)):e.startsWith("/playlist/")?(k("playlists"),await Re(t,decodeURIComponent(e.slice(10)))):e.startsWith("/watch/")?(k("home"),Ze(await Be(t,decodeURIComponent(e.slice(7))))):e==="/search"?(k("home"),await Ae(t,i)):e==="/channel/new"?(k("profile"),await Fe(t)):e.startsWith("/channel/")?(k("home"),await je(t,decodeURIComponent(e.slice(9)))):e==="/upload"?(k("upload"),await Je(t)):e==="/studio"?(k("studio"),await Z(t,i)):e==="/admin"?(k("profile"),await X(t,i)):e==="/notifications"?(k("profile"),await Qe(t)):e==="/login"?(k("profile"),await Oe(t,i)):e==="/signup"?(k("profile"),await Ye(t)):e==="/forgot"?(k("profile"),await Ke(t)):e==="/profile"?(k("profile"),await Xe(t)):t.innerHTML='<div class="empty"><div class="big">\u{1F9ED}</div><h3>Page not found</h3><p>The link you followed does not exist.</p><div style="margin-top:16px"><a class="btn primary" href="#/">Go home</a></div></div>'}catch(n){console.error(n),t.innerHTML=`<div class="empty"><div class="big">\u26A0\uFE0F</div><h3>Something went wrong</h3><p>${v(n.message||"Please try again.")}</p><div style="margin-top:16px"><button class="btn primary" onclick="location.reload()">Retry</button></div></div>`}}function ii(){mi(),ti(),s("#topSearch").addEventListener("submit",t=>{t.preventDefault();let e=s("#topSearchInput").value.trim();e&&(location.hash="#/search?q="+encodeURIComponent(e))}),s("#menuBtn").addEventListener("click",()=>s("#sidebar").classList.toggle("open")),window.addEventListener("hashchange",ei),Te(()=>{ti()}),ei(),setInterval(ke,6e4)}function ai(t){document.documentElement.dataset.theme=t;try{localStorage.setItem("wtheme",t)}catch{}}window.__toggleTheme=()=>ai(document.documentElement.dataset.theme==="dark"?"light":"dark");ai(localStorage.getItem("wtheme")||"dark");async function fi(){let{data:t}=await d.auth.getSession();rt(t.session?.user??null),d.auth.onAuthStateChange((e,i)=>rt(i?.user??null)),ii(),setTimeout(()=>document.getElementById("boot-splash")?.classList.add("hide"),600)}fi();
+
+</script>
+</body>
+</html>
